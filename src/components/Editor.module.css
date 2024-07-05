@@ -1,0 +1,14 @@
+.editor {
+  height: 100%;
+  background-color: #9f9f9f;
+  box-sizing: border-box;
+  padding: 8px;
+  flex: 1;
+}
+
+@media screen and (max-width: 210mm) {
+  .editor {
+    width: 100%;
+    height: fit-content;
+  }
+}
