@@ -1,4 +1,112 @@
-export const resumeTemplate = () => `
+import {ResumeDataInterface} from "@/components/ResumeContext";
+
+export const resumeTemplate = (resumeData: ResumeDataInterface) => `
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    ${cssStyles()}
+  </head>
+  <body>
+    <div class="preview">
+    <div class="content">
+      <div class="contentstart">
+        
+        ${(resumeData.name?.length > 0 || resumeData.title?.length > 0) ? `
+          <div class="section">
+            <h2 class="name">${resumeData.name}</h2>
+            <p class="title">${resumeData.title}</p>
+          </div>
+        ` : ''}
+
+        ${(resumeData.address?.length > 0 || resumeData.phone?.length > 0 || resumeData.email?.length > 0) ? `
+          <div class="section">
+            <div class="address">
+              ${resumeData.address?.length > 0 ? `<p><strong>Address: </strong>${resumeData.address}</p>` : ''}
+              ${resumeData.phone?.length > 0 ? `<p><strong>Phone: </strong>${resumeData.phone}</p>` : ''}
+              ${resumeData.email?.length > 0 ? `<p><strong>E-mail: </strong>${resumeData.email}</p>` : ''}
+            </div>
+          </div>
+        ` : ''}
+
+        ${resumeData.summary?.length > 0 ? `
+          <div class="section">
+            <div class="summary">
+              <p>${resumeData.summary}</p>
+            </div>
+          </div>
+        ` : ''}
+
+        ${resumeData.experience?.length > 0 ? `
+          <div class="section">
+            <div class="experience">
+              <h3>Experience</h3>
+              <div class="entries">
+                ${resumeData.experience.map((exp) => `
+                  <div class="entry">
+                    <p class="fromto">${exp.from} - ${exp.to}</p>
+                    <div class="gapeight">
+                      <div>
+                        <h4>${exp.worktitle}</h4>
+                        <i>${exp.workplacename}</i>
+                      </div>
+                      <ul>
+                        ${exp.listitem.map((item) => `<li>${item}</li>`).join('')}
+                      </ul>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        ` : ''}
+
+        ${resumeData.education?.length > 0 ? `
+          <div class="section">
+            <div class="education">
+              <h3>Education</h3>
+              <div class="entries">
+                ${resumeData.education.map((edu) => `
+                  <div class="entry">
+                    <p class="fromto">${edu.from} - ${edu.to}</p>
+                    <div class="gapeight">
+                      <div>
+                        <h4>${edu.schoolname}</h4>
+                      </div>
+                      <ul>
+                        ${edu.listitem.map((item) => `<li>${item}</li>`).join('')}
+                      </ul>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        ` : ''}
+
+        ${resumeData.skills?.length > 0 ? `
+          <div class="section">
+            <div class="skills">
+              <h3>Skills</h3>
+              <div class="entries">
+                ${resumeData.skills.map((skill) => `
+                  <div class="entry">
+                    <p><strong>${skill.title}</strong> - ${skill.text}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        ` : ''}
+        
+      </div>
+    </div>
+  </div>
+  </body>
+</html>
+`;
+
+
+export const resumeTemplateMock = () => `
 <html>
   <head>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -42,7 +150,7 @@ export const resumeTemplate = () => `
             <div class="entries">
 
               <div class="entry">
-                <p>2024 - present</p>
+                <p class="fromto">2024 - present</p>
                 <div class="gapeight">
                   <div>
                     <h4>Work title</h4>
@@ -61,7 +169,7 @@ export const resumeTemplate = () => `
               </div>
 
               <div class="entry">
-                <p>2024 - present</p>
+                <p class="fromto">2024 - present</p>
                 <div class="gapeight">
                   <div>
                     <h4>Work title</h4>
@@ -80,7 +188,7 @@ export const resumeTemplate = () => `
               </div>
 
               <div class="entry">
-                <p>2024 - present</p>
+                <p class="fromto">2024 - present</p>
                 <div class="gapeight">
                   <div>
                     <h4>Work title</h4>
@@ -110,7 +218,7 @@ export const resumeTemplate = () => `
             <div class="entries">
 
               <div class="entry">
-                <p>2020-12 - 2024-12</p>
+                <p class="fromto">2020-12 - 2024-12</p>
                 <div class="gapeight">
                   <div>
                     <h4>Where went to school</h4>
@@ -124,7 +232,7 @@ export const resumeTemplate = () => `
               </div>
 
               <div class="entry">
-                <p>2020-12 - 2024-12</p>
+                <p class="fromto">2020-12 - 2024-12</p>
                 <div class="gapeight">
                   <div>
                     <h4>Where went to school</h4>
@@ -249,6 +357,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.fromto {
+  font-size: 12px;
 }
 
 .entry ul {

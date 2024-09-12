@@ -32,7 +32,7 @@ export interface EducationInterface {
 
 export interface SkillInterface {
   title: string,
-  listitem: string[]
+  text: string
 }
 
 export interface CustomEntryInterface {

@@ -6,7 +6,14 @@ import {ResumeProvider} from "@/components/ResumeContext";
 export default function Home() {
   return (
     <main className={styles.main}>
-      {/*<Test></Test>*/}
+      <div className={styles.hero}>
+        <div className={styles.col1}>
+          <h1>Making a good Resume doesn&apos;t have to be hard.</h1>
+        </div>
+        <div className={styles.col2}>
+
+        </div>
+      </div>
       <div className={styles.center}>
         <ResumeProvider>
           <Editor/>

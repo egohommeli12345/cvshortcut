@@ -38,11 +38,12 @@ const Preview = () => {
   };
 
   useEffect(() => {
-    scale();
+    // scale();
   }, [windowWidth]);
 
   const resize = () => {
     setWindowWidth(window.innerWidth);
+    scale();
   };
 
   useEffect(() => {
@@ -106,7 +107,7 @@ const Preview = () => {
                   <div className={styles.entries}>
                     {resumeData.experience.map((exp, index) =>
                       <div className={styles.entry} key={index}>
-                        <p>{exp.from} - {exp.to}</p>
+                        <p className={styles.fromto}>{exp.from} - {exp.to}</p>
                         <div className={styles.gapeight}>
                           <div>
                             <h4>{exp.worktitle}</h4>
@@ -121,94 +122,56 @@ const Preview = () => {
                       </div>
                     )}
 
-                    <div className={styles.entry}>
-                      <p>2024 - present</p>
-                      <div className={styles.gapeight}>
-                        <div>
-                          <h4>Work title</h4>
-                          <i>Where worked</i>
+                  </div>
+
+                </div>
+              </div>}
+
+            {resumeData.education?.length > 0 &&
+              <div className={styles.section}>
+                <div className={styles.education}>
+                  <h3>Education</h3>
+
+                  <div className={styles.entries}>
+
+                    {resumeData.education.map((edu, index) =>
+                      <div className={styles.entry} key={index}>
+                        <p className={styles.fromto}>{edu.from} - {edu.to}</p>
+                        <div className={styles.gapeight}>
+                          <div>
+                            <h4>{edu.schoolname}</h4>
+                          </div>
+                          <ul>
+                            {edu.listitem.map((item, index) =>
+                              <li key={index}>{item}</li>
+                            )}
+                          </ul>
                         </div>
-                        <ul>
-                          <li>Lorem ipsum odor amet, consectetuer adipiscing
-                            elit.
-                          </li>
-                          <li>Proin eu tellus purus fusce eros egestas nulla.
-                          </li>
-                          <li>Urna vestibulum nisl ipsum torquent commodo hac
-                            sed
-                            consectetur.
-                          </li>
-                          <li>Porta mauris nec nisi et quam ullamcorper.</li>
-                        </ul>
-                      </div>
-                    </div>
+                      </div>)}
 
                   </div>
 
                 </div>
               </div>}
 
-            <div className={styles.section}>
-              <div className={styles.education}>
-                <h3>Education</h3>
+            {resumeData.skills?.length > 0 &&
+              <div className={styles.section}>
+                <div className={styles.skills}>
+                  <h3>Skills</h3>
+                  <div className={styles.entries}>
 
-                <div className={styles.entries}>
+                    {resumeData.skills.map((skill, index) =>
+                      <div className={styles.entry} key={index}>
+                        <div></div>
+                        <p><strong>{skill.title}</strong> - {skill.text}</p>
+                      </div>)}
 
-                  <div className={styles.entry}>
-                    <p>2020-12 - 2024-12</p>
-                    <div className={styles.gapeight}>
-                      <div>
-                        <h4>Where went to school</h4>
-                      </div>
-                      <ul>
-                        <li>Lorem ipsum odor amet, consectetuer adipiscing elit.
-                        </li>
-                        <li>Proin eu tellus purus fusce eros egestas nulla.</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className={styles.entry}>
-                    <p>2020-12 - 2024-12</p>
-                    <div className={styles.gapeight}>
-                      <div>
-                        <h4>Where went to school</h4>
-                      </div>
-                      <ul>
-                        <li>Lorem ipsum odor amet, consectetuer adipiscing elit.
-                        </li>
-                        <li>Proin eu tellus purus fusce eros egestas nulla.</li>
-                        <li>Porta mauris nec nisi et quam ullamcorper.</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-            <div className={styles.section}>
-              <div className={styles.skills}>
-                <h3>Skills</h3>
-                <div className={styles.entries}>
-                  <div className={styles.entry}>
-                    <div></div>
-                    <p><strong>Skill title here</strong> - Additional
-                      information of
-                      the skill</p>
-                  </div>
-                  <div className={styles.entry}>
-                    <div></div>
-                    <p><strong>Skill title here</strong> - Urna vestibulum nisl
-                      ipsum torquent commodo hac sed consectetur.</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div>}
 
           </div>
-          <button onClick={pagebreak}>Button</button>
+          {/*<button onClick={pagebreak}>Button</button>*/}
         </div>
       </div>
     </>

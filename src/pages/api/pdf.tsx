@@ -6,7 +6,7 @@ import {resumeTemplate} from "@/apiHelpers/resumeTemplate";
 const inter = Inter({subsets: ["latin"]});
 
 const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
-  const html = resumeTemplate();
+  const html = resumeTemplate(req.body);
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();

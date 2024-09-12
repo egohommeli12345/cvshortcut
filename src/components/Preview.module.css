@@ -76,6 +76,10 @@
   grid-template-columns: 25% 75%;
 }
 
+.fromto {
+  font-size: 12px;
+}
+
 .gapeight {
   display: flex;
   flex-direction: column;

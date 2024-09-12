@@ -7,38 +7,165 @@ import {
   ResumeDataInterface, SkillInterface,
   useResumeContext
 } from "@/components/ResumeContext";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 
 const Editor = () => {
-  const {resumeData, updateField} = useResumeContext();
-  const [experience, setExperience] = useState<ExperienceInterface[]>([]);
-  const [experienceli, setExperienceli] = useState<string[]>([]);
-  const [education, setEducation] = useState<EducationInterface[]>([]);
-  const [skill, setSkill] = useState<SkillInterface[]>([]);
+  const {resumeData, setResumeData, updateField} = useResumeContext();
+  const [tempexperience, setTempexperience] = useState<ExperienceInterface>({});
+  const [tempeducation, setTempeducation] = useState<EducationInterface>({});
+  const [tempskill, setTempskill] = useState<SkillInterface>({});
   const [bulletpointinput, setBulletpointinput] = useState<string>("");
+  const bpExpref = useRef<HTMLInputElement>(null);
+  const bpEduref = useRef<HTMLInputElement>(null);
+  const bpSkillref = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
     updateField(name as keyof ResumeDataInterface, value);
   };
 
-  const handleListChange = (e: ChangeEvent<HTMLInputElement>) => {
-
+  const addExperienceListItem = () => {
+    if (bpExpref) {
+      if (tempexperience.listitem) {
+        setTempexperience({
+          ...tempexperience,
+          listitem: [...tempexperience.listitem, bpExpref.current!.value]
+        });
+      } else {
+        setTempexperience({
+          ...tempexperience,
+          listitem: [bpExpref.current!.value]
+        });
+      }
+      bpExpref.current!.value = "";
+    }
   };
 
-  const addListItem = () => {
-    setExperienceli([...experienceli, bulletpointinput]);
-    setBulletpointinput("");
+  const addEducationListItem = () => {
+    if (bpEduref) {
+      if (tempeducation.listitem) {
+        setTempeducation({
+          ...tempeducation,
+          listitem: [...tempeducation.listitem, bpEduref.current!.value]
+        });
+      } else {
+        setTempeducation({
+          ...tempeducation,
+          listitem: [bpEduref.current!.value]
+        });
+      }
+      bpEduref.current!.value = "";
+    }
   };
 
-  useEffect(() => {
-    console.log(experienceli);
-  }, [experienceli]);
+  const addSkill = () => {
+    if (resumeData.skills) {
+      setResumeData((prevState) => ({
+        ...prevState,
+        skills: [...prevState.skills, tempskill]
+      }));
+    } else {
+      setResumeData((prevState) => ({
+        ...prevState,
+        skills: [tempskill]
+      }));
+    }
+    setTempskill({
+      title: "",
+      text: ""
+    });
+  };
+
+  const addExperience = () => {
+    if (resumeData.experience) {
+      setResumeData((prevState) => ({
+        ...prevState,
+        experience: [...prevState.experience, tempexperience]
+      }));
+    } else {
+      setResumeData((prevState) => ({
+        ...prevState,
+        experience: [tempexperience]
+      }));
+    }
+    setTempexperience({
+      from: "",
+      to: "",
+      worktitle: "",
+      workplacename: "",
+      listitem: []
+    });
+  };
+
+  const addEducation = () => {
+    if (resumeData.education) {
+      setResumeData((prevState) => ({
+        ...prevState,
+        education: [...prevState.education, tempeducation]
+      }));
+    } else {
+      setResumeData((prevState) => ({
+        ...prevState,
+        education: [tempeducation]
+      }));
+    }
+    setTempeducation({
+      from: "",
+      to: "",
+      schoolname: "",
+      listitem: []
+    });
+  };
+
+  const handleTempExperience = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setTempexperience({
+      ...tempexperience,
+      [name]: value,
+    });
+  };
+
+  const handleTempeducation = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setTempeducation({
+      ...tempeducation,
+      [name]: value,
+    });
+  };
+
+  const handleTempskill = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setTempskill({
+      ...tempskill,
+      [name]: value,
+    });
+  };
+
+  const downloadPdf = async () => {
+    const response = await fetch("/api/pdf", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(resumeData)
+    });
+    if (response.ok) {
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume.pdf";
+      document.body.appendChild(a);
+
+      a.click();
+    }
+  };
 
   return (
     <>
       <div className={styles.editor}>
         <div className={styles.inputContainer}>
+          <h4>Basic info</h4>
           <label htmlFor="name">Name</label>
           <input className={styles.input} id={"name"} type="text"
                  value={resumeData.name}
@@ -68,7 +195,8 @@ const Editor = () => {
 
           <label htmlFor="summary">Summary</label>
           <textarea className={styles.textarea} name="summary" id="summary"
-                    rows={10} onChange={handleChange}></textarea>
+                    rows={10} onChange={handleChange}
+                    value={resumeData.summary}></textarea>
         </div>
 
         <div className={styles.inputContainer}>
@@ -76,45 +204,114 @@ const Editor = () => {
 
           <div className={styles.twocolgrid}>
             <label htmlFor="from">From</label>
-            <input className={styles.input} id={"from"} type="text"/>
+            <input onChange={handleTempExperience} name={"from"}
+                   value={tempexperience.from}
+                   className={styles.input} id={"from"} type="text"/>
 
             <label htmlFor="to">To</label>
-            <input className={styles.input} id={"to"} type="text"/>
+            <input onChange={handleTempExperience} name={"to"}
+                   value={tempexperience.to}
+                   className={styles.input} id={"to"} type="text"/>
           </div>
 
           <label htmlFor="jobtitle">Job title</label>
-          <input className={styles.input} id={"jobtitle"} type="text"/>
+          <input onChange={handleTempExperience} name={"worktitle"}
+                 value={tempexperience.worktitle}
+                 className={styles.input} id={"jobtitle"} type="text"/>
 
           <label htmlFor="workplacename">Company name</label>
-          <input className={styles.input} id={"workplacename"} type="text"/>
+          <input onChange={handleTempExperience} name={"workplacename"}
+                 value={tempexperience.workplacename}
+                 className={styles.input} id={"workplacename"} type="text"/>
 
           <label htmlFor="listitem">Bullet point</label>
           <div className={styles.inputContainerWithBtn}>
-            <input className={styles.input} type="text" value={bulletpointinput}
-                   onChange={(e) => setBulletpointinput(e.target.value)}/>
-            <button onClick={addListItem} className={styles.btn}>Add</button>
+            <input className={styles.input} type="text"
+                   ref={bpExpref}/>
+            <button onClick={addExperienceListItem} className={styles.btn}>Add
+            </button>
           </div>
           {
-            experienceli.length > 0 &&
+            (tempexperience.listitem) &&
             <div className={styles.addingtolist}>
-              {experienceli.map((li, index) =>
+              {tempexperience.listitem.map((li, index) =>
                 <p key={index}>{li}</p>
               )}
             </div>
           }
-          <button className={styles.btn} onClick={addListItem}>Add experience
+          <button className={styles.btn} onClick={addExperience}>Add experience
           </button>
 
         </div>
 
         <div className={styles.inputContainer}>
-          <p>Education</p>
-          <p>Skills</p>
-          <p>Projects</p>
-          <p>Certifications and licences</p>
-          <p>Affiliations</p>
-          <p>Other (input both title and desc)</p>
+          <h4>Education</h4>
+
+          <div className={styles.twocolgrid}>
+            <label htmlFor="from">From</label>
+            <input onChange={handleTempeducation} name={"from"}
+                   value={tempeducation.from}
+                   className={styles.input} id={"from"} type="text"/>
+
+            <label htmlFor="to">To</label>
+            <input onChange={handleTempeducation} name={"to"}
+                   value={tempeducation.to}
+                   className={styles.input} id={"to"} type="text"/>
+          </div>
+
+          <label htmlFor="schoolname">School name</label>
+          <input onChange={handleTempeducation} name={"schoolname"}
+                 value={tempeducation.schoolname}
+                 className={styles.input} id={"schoolname"} type="text"/>
+
+          <label htmlFor="listitem">Bullet point</label>
+          <div className={styles.inputContainerWithBtn}>
+            <input className={styles.input} type="text"
+                   ref={bpEduref}/>
+            <button onClick={addEducationListItem} className={styles.btn}>Add
+            </button>
+          </div>
+          {
+            (tempeducation.listitem) &&
+            <div className={styles.addingtolist}>
+              {tempeducation.listitem.map((li, index) =>
+                <p key={index}>{li}</p>
+              )}
+            </div>
+          }
+          <button className={styles.btn} onClick={addEducation}>Add education
+          </button>
+
         </div>
+
+        <div className={styles.inputContainer}>
+          <h4>Skills</h4>
+          <label htmlFor="skilltitle">Skill</label>
+          <input type="text" id={"skilltitle"} onChange={handleTempskill}
+                 name={"title"}
+                 value={tempskill.title}
+                 className={styles.input}/>
+
+          <label htmlFor="skillinfo">Brief information about the skill</label>
+          <input type="text" id={"skillinfo"} onChange={handleTempskill}
+                 name={"text"}
+                 value={tempskill.text}
+                 className={styles.input}/>
+
+          <button className={styles.btn} onClick={addSkill}>Add skill
+          </button>
+        </div>
+
+        <div className={styles.inputContainer}>
+          <button className={styles.greenbtn} onClick={downloadPdf}>Download
+            PDF
+          </button>
+          <button className={styles.redbtn}
+                  onClick={() => setResumeData({})}>Empty
+            template
+          </button>
+        </div>
+
       </div>
     </>
   );
