@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  position: sticky;
+  top: 10mm;
 }
 
 .reference {
@@ -76,6 +77,11 @@
   grid-template-columns: 25% 75%;
 }
 
+.entry:hover {
+  background: #ededed;
+  cursor: pointer;
+}
+
 .fromto {
   font-size: 12px;
 }
@@ -92,5 +98,8 @@
 }
 
 @media screen and (max-width: 1000px) {
-
+  .preview {
+    position: relative;
+    top: unset;
+  }
 }

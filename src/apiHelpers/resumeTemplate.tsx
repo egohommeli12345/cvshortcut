@@ -90,6 +90,7 @@ export const resumeTemplate = (resumeData: ResumeDataInterface) => `
               <div class="entries">
                 ${resumeData.skills.map((skill) => `
                   <div class="entry">
+                    <div></div>
                     <p><strong>${skill.title}</strong> - ${skill.text}</p>
                   </div>
                 `).join('')}

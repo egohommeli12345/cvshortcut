@@ -4,11 +4,11 @@
   display: flex;
   width: 35%;
   flex-direction: column;
-  font-size: 1.25rem;
+  font-size: 1rem;
   align-self: start;
-  gap: 16px;
-  overflow-y: auto;
-  max-height: 95vh;
+  gap: 64px;
+  /*overflow-y: auto;*/
+  /*max-height: 95vh;*/
 }
 
 .inputContainer {
@@ -32,58 +32,106 @@
   width: 100%;
 }
 
-.inputContainerWithBtn button {
-  height: 2rem;
-  width: 3rem;
-  border-radius: 0.2rem;
-  border: 1px solid lightgray;
-}
-
 .btn {
   width: 100%;
   height: 2rem;
   border-radius: 0.2rem;
-  border: 1px solid lightgray;
+  border: none;
+  background-color: #dddddd;
+  color: black;
+  font-size: 1rem;
+}
+
+.addbtn {
+  width: 100%;
+  height: 2rem;
+  border-radius: 0.2rem;
+  border: none;
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+  margin-top: 32px;
+}
+
+.addbtn:hover {
+  background-color: #000000;
+  cursor: pointer;
+}
+
+.roundbtn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+  border: none;
+  background-color: #d1f0ff;
+  color: black;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.btn:hover {
+  background-color: #cacaca;
 }
 
 .redbtn {
   width: 100%;
   height: 2rem;
   border-radius: 0.2rem;
-  border: 1px solid lightgray;
+  border: none;
   background-color: #ffb5b5;
+  font-size: 1rem;
+  color: black;
 }
 
 .greenbtn {
   width: 100%;
-  height: 2rem;
+  height: 4rem;
   border-radius: 0.2rem;
-  border: 1px solid lightgray;
-  background-color: #b2ffa1;
+  border: none;
+  background-image: linear-gradient(107.7deg, rgba(235, 230, 44, 0.55) 8.4%, rgba(252, 152, 15, 1) 90.3%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 24px;
+  color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .redbtn:hover {
   background-color: #ff8686;
+  cursor: pointer;
 }
 
 .greenbtn:hover {
   background-color: #8bff70;
+  cursor: pointer;
 }
 
 .input {
   height: 2rem;
   border-radius: 0.2rem;
-  border: 1px solid lightgray;
+  /*border: 1px solid lightgray;*/
+  border: none;
+  box-sizing: border-box;
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.input:focus, .textarea:focus {
+  outline: 1px solid #cfcfcf;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .textarea {
   border-radius: 0.2rem;
-  border: 1px solid lightgray;
+  border: none;
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .twocolgrid {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 .addingtolist {
@@ -100,6 +148,8 @@
     height: fit-content;
     overflow-y: unset;
     max-height: unset;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .inputContainer {

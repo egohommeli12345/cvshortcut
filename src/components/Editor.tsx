@@ -38,6 +38,7 @@ const Editor = () => {
         });
       }
       bpExpref.current!.value = "";
+      bpExpref.current!.focus();
     }
   };
 
@@ -161,6 +162,14 @@ const Editor = () => {
     }
   };
 
+  const saveResumeData = () => {
+    const a = document.createElement("a");
+    const file = new Blob([JSON.stringify(resumeData)], {type: "text/plain"});
+    a.href = URL.createObjectURL(file);
+    a.download = "eaCV_resume_save.txt";
+    a.click();
+  };
+
   return (
     <>
       <div className={styles.editor}>
@@ -228,7 +237,8 @@ const Editor = () => {
           <div className={styles.inputContainerWithBtn}>
             <input className={styles.input} type="text"
                    ref={bpExpref}/>
-            <button onClick={addExperienceListItem} className={styles.btn}>Add
+            <button onClick={addExperienceListItem} className={styles.btn}>
+              Add
             </button>
           </div>
           {
@@ -239,7 +249,8 @@ const Editor = () => {
               )}
             </div>
           }
-          <button className={styles.btn} onClick={addExperience}>Add experience
+          <button className={styles.addbtn} onClick={addExperience}>Add
+            experience
           </button>
 
         </div>
@@ -279,7 +290,7 @@ const Editor = () => {
               )}
             </div>
           }
-          <button className={styles.btn} onClick={addEducation}>Add education
+          <button className={styles.addbtn} onClick={addEducation}>Add education
           </button>
 
         </div>
@@ -298,17 +309,22 @@ const Editor = () => {
                  value={tempskill.text}
                  className={styles.input}/>
 
-          <button className={styles.btn} onClick={addSkill}>Add skill
+          <button className={styles.addbtn} onClick={addSkill}>Add skill
           </button>
         </div>
 
         <div className={styles.inputContainer}>
+          <div className={styles.twocolgrid}>
+            {/*<button className={styles.redbtn}
+                    onClick={() => setResumeData({})}>Empty
+              template
+            </button>
+            <button className={styles.btn} onClick={saveResumeData}>Save
+              editor data locally
+            </button>*/}
+          </div>
           <button className={styles.greenbtn} onClick={downloadPdf}>Download
             PDF
-          </button>
-          <button className={styles.redbtn}
-                  onClick={() => setResumeData({})}>Empty
-            template
           </button>
         </div>
 

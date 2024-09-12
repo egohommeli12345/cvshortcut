@@ -31,6 +31,7 @@ const Preview = () => {
         scalingFactor = scalingFactor * 0.95;
         ref.current!.style.scale = scalingFactor.toString();
         previewref.current!.style.width = `${(windowWidth).toString()}px`;
+        previewref.current!.style.marginBottom = `${((ref.current!.offsetHeight * scalingFactor * 0.05) / 2).toString()}px`;
       }
 
       previewref.current!.style.height = `${(ref.current!.offsetHeight * scalingFactor).toString()}px`;
@@ -64,6 +65,7 @@ const Preview = () => {
 
   useEffect(() => {
     console.log(resumeData);
+    sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
   }, [resumeData]);
 
   return (
@@ -107,7 +109,9 @@ const Preview = () => {
                   <div className={styles.entries}>
                     {resumeData.experience.map((exp, index) =>
                       <div className={styles.entry} key={index}>
-                        <p className={styles.fromto}>{exp.from} - {exp.to}</p>
+                        <p className={styles.fromto} onClick={() => {
+                          console.log(index);
+                        }}>{exp.from} - {exp.to}</p>
                         <div className={styles.gapeight}>
                           <div>
                             <h4>{exp.worktitle}</h4>
