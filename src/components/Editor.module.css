@@ -1,14 +1,84 @@
 .editor {
-  height: 100%;
-  background-color: #9f9f9f;
   box-sizing: border-box;
   padding: 8px;
-  flex: 1;
+  display: flex;
+  width: 35%;
+  flex-direction: column;
+  font-size: 1.25rem;
+  align-self: start;
+  gap: 16px;
+  overflow-y: auto;
+  max-height: 95vh;
 }
 
-@media screen and (max-width: 210mm) {
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.inputContainerWithBtn {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  align-items: center;
+}
+
+.inputContainerWithBtn .input {
+  width: 100%;
+}
+
+.inputContainerWithBtn button {
+  height: 2rem;
+  width: 3rem;
+  border-radius: 0.2rem;
+  border: 1px solid lightgray;
+}
+
+.btn {
+  width: 100%;
+  height: 2rem;
+  border-radius: 0.2rem;
+  border: 1px solid lightgray;
+}
+
+.input {
+  height: 2rem;
+  border-radius: 0.2rem;
+  border: 1px solid lightgray;
+}
+
+.textarea {
+  border-radius: 0.2rem;
+  border: 1px solid lightgray;
+}
+
+.twocolgrid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.addingtolist {
+  display: flex;
+  flex-direction: column;
+  font-size: x-small;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1000px) {
   .editor {
     width: 100%;
     height: fit-content;
+    overflow-y: unset;
+    max-height: unset;
+  }
+
+  .inputContainer {
+    width: 100%;
   }
 }
