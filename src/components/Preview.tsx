@@ -13,7 +13,7 @@ const Preview = () => {
   const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
   const scale = () => {
     if (ref && widthref && previewref && windowWidth) {
-      const maxWidth = previewref.current!.offsetWidth;
+      const maxWidth = widthref.current!.offsetWidth;
       const maxHeight = previewref.current!.offsetHeight;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
 
