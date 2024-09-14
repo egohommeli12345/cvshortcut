@@ -4,13 +4,15 @@ import styles from "./Preview.module.css";
 import {useEffect, useRef, useState} from "react";
 import {useResumeContext} from "@/components/ResumeContext";
 
+const defaultWidth = window.innerWidth;
+
 const Preview = () => {
   const {resumeData} = useResumeContext();
   const ref = useRef<HTMLDivElement>(null);
   const previewref = useRef<HTMLDivElement>(null);
   const widthref = useRef<HTMLDivElement>(null);
   const pagebreakref = useRef<HTMLDivElement>(null);
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState<number>(defaultWidth);
 
   const scale = () => {
     if (ref && widthref && previewref && windowWidth) {
