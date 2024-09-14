@@ -10,7 +10,7 @@ const Preview = () => {
   const previewref = useRef<HTMLDivElement>(null);
   const widthref = useRef<HTMLDivElement>(null);
   const pagebreakref = useRef<HTMLDivElement>(null);
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
 
   const scale = () => {
     if (ref && widthref && previewref) {
@@ -48,6 +48,7 @@ const Preview = () => {
   };
 
   useEffect(() => {
+    setWindowWidth(window.innerWidth);
     resize();
     window.addEventListener("resize", resize);
 
