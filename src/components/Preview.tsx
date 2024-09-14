@@ -10,27 +10,27 @@ const Preview = () => {
   const previewref = useRef<HTMLDivElement>(null);
   const widthref = useRef<HTMLDivElement>(null);
   const pagebreakref = useRef<HTMLDivElement>(null);
-  // const [windowWidth, setWindowWidth] = useState<number>(0);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   const scale = () => {
-    if (ref && widthref && previewref) {
+    if (ref && widthref && previewref && windowWidth) {
       const maxWidth = previewref.current!.offsetWidth;
       const maxHeight = previewref.current!.offsetHeight;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
 
-      if (window.innerWidth > 1000) {
+      if (windowWidth > 1000) {
         if (scalingFactor > 1) {
           scalingFactor = 1;
         }
         ref.current!.style.scale = scalingFactor.toString();
         previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
-      } else if (window.innerWidth < 1000) {
+      } else if (windowWidth < 1000) {
         if (scalingFactor > 1) {
           scalingFactor = 1;
         }
         scalingFactor = scalingFactor * 0.95;
         ref.current!.style.scale = scalingFactor.toString();
-        previewref.current!.style.width = `${(window.innerWidth).toString()}px`;
+        previewref.current!.style.width = `${(windowWidth).toString()}px`;
         previewref.current!.style.marginBottom = `${((ref.current!.offsetHeight * scalingFactor * 0.05) / 2).toString()}px`;
       }
 
@@ -38,17 +38,17 @@ const Preview = () => {
     }
   };
 
-  /*  useEffect(() => {
-      // scale();
-    }, [windowWidth]);*/
+  useEffect(() => {
+    // scale();
+  }, [windowWidth]);
 
   const resize = () => {
-    // setWindowWidth(window.innerWidth);
+    setWindowWidth(window.innerWidth);
     scale();
   };
 
   useEffect(() => {
-    // setWindowWidth(window.innerWidth);
+    setWindowWidth(window.innerWidth);
     resize();
     window.addEventListener("resize", resize);
 
