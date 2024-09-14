@@ -56,7 +56,18 @@ interface ResumeProviderProps {
 }
 
 export const ResumeProvider = ({children}: ResumeProviderProps) => {
-  const [resumeData, setResumeData] = useState<ResumeDataInterface>({});
+  const [resumeData, setResumeData] = useState<ResumeDataInterface>({
+    address: "",
+    customentry: [],
+    education: [],
+    email: "",
+    experience: [],
+    name: "",
+    phone: "",
+    skills: [],
+    summary: "",
+    title: ""
+  });
 
   const updateField = <K extends keyof ResumeDataInterface>(key: K, value: ResumeDataInterface[K]) => {
     setResumeData((prevData) => ({
