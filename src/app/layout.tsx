@@ -6,8 +6,8 @@ import Head from "next/head";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-  title: "eaCV",
-  description: "Easy resume maker",
+  title: "CVShortcut",
+  description: "Super simple and blazingly fast resume generator",
 
 };
 

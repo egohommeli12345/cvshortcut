@@ -7,17 +7,59 @@ import {
   ResumeDataInterface, SkillInterface,
   useResumeContext
 } from "@/components/ResumeContext";
-import {ChangeEvent, useEffect, useRef, useState} from "react";
+import {ChangeEvent, useRef, useState, useCallback} from "react";
+import {loadStripe} from "@stripe/stripe-js";
+import Checkout from "@/components/Checkout";
+import {Elements} from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC!);
+
 
 const Editor = () => {
   const {resumeData, setResumeData, updateField} = useResumeContext();
-  const [tempexperience, setTempexperience] = useState<ExperienceInterface>({});
-  const [tempeducation, setTempeducation] = useState<EducationInterface>({});
-  const [tempskill, setTempskill] = useState<SkillInterface>({});
+  const [tempexperience, setTempexperience] = useState<ExperienceInterface>({
+    from: "",
+    listitem: [],
+    to: "",
+    workplacename: "",
+    worktitle: ""
+  });
+  const [tempeducation, setTempeducation] = useState<EducationInterface>({
+    from: "",
+    listitem: [],
+    schoolname: "",
+    to: ""
+  });
+  const [tempskill, setTempskill] = useState<SkillInterface>({
+    text: "",
+    title: ""
+  });
   const [bulletpointinput, setBulletpointinput] = useState<string>("");
   const bpExpref = useRef<HTMLInputElement>(null);
   const bpEduref = useRef<HTMLInputElement>(null);
   const bpSkillref = useRef<HTMLInputElement>(null);
+
+  // For Stripe
+  const [clientSecret, setClientSecret] = useState<string>("");
+
+  const fetchClientSecret = useCallback(async () => {
+    // Create a Checkout Session
+    const res = await fetch("/api/payment_intents", {
+      method: "POST",
+    });
+    const data = await res.json();
+    setClientSecret(data.client_secret);
+  }, []);
+
+  const initPayment = async () => {
+    await fetchClientSecret();
+  };
+
+  const options = {
+    clientSecret: clientSecret,
+    appearance: {},
+    // paymentMethods:
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -323,9 +365,17 @@ const Editor = () => {
               editor data locally
             </button>*/}
           </div>
-          <button className={styles.greenbtn} onClick={downloadPdf}>Download
-            PDF
+          <button className={styles.greenbtn} onClick={initPayment}>Download
+            PDF for 2.29 €
           </button>
+          {stripePromise && clientSecret &&
+            <Elements
+              stripe={stripePromise}
+              options={options}
+            >
+              <Checkout/>
+            </Elements>}
+
         </div>
 
       </div>

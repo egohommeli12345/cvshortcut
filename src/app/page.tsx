@@ -3,7 +3,10 @@ import Editor from "@/components/Editor";
 import Preview from "@/components/Preview";
 import {ResumeProvider} from "@/components/ResumeContext";
 
+
 export default function Home() {
+
+
   return (
     <main className={styles.main}>
       <p className={styles.appversion}>App version: v.0.1</p>
@@ -29,6 +32,7 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.center}>
+
         <ResumeProvider>
           <Editor/>
           <Preview/>
@@ -36,7 +40,7 @@ export default function Home() {
       </div>
       <div className={styles.footer}>
         <div className={styles.appfrom}>
-          <p><strong>eaCV</strong> by Samuli Pirnes</p>
+          <p><strong>CVShortcut</strong> by Samuli Pirnes</p>
           <a href="https://samulipirnes.com/" target={"_blank"}
              rel={"noopener"}>samulipirnes.com</a>
         </div>
