@@ -12,10 +12,10 @@ export default function Home() {
       <p className={styles.appversion}>App version: v.0.1</p>
       <div className={styles.hero}>
         <div className={styles.col1}>
-          <h1>Making a professional<h1
+          <div className={styles.heading}>Making a professional<h1
             className={styles.standout}>Resume</h1> doesn&apos;t have to be
             hard.
-          </h1>
+          </div>
           <p>Create a professional resume in minutes with our intuitive resume
             generator. Designed for simplicity and speed, our tool guides you
             through each step, ensuring you craft a standout resume with minimal

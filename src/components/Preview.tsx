@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Preview.module.css";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useResumeContext} from "@/components/ResumeContext";
 
 const Preview = () => {
@@ -10,10 +10,12 @@ const Preview = () => {
   const previewref = useRef<HTMLDivElement>(null);
   const widthref = useRef<HTMLDivElement>(null);
   const pagebreakref = useRef<HTMLDivElement>(null);
-  const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
-  const scale = () => {
-    if (ref && widthref && previewref && windowWidth) {
-      const maxWidth = widthref.current!.offsetWidth;
+  // const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
+
+  const scale = (windowWidth: number) => {
+    if (ref && widthref && previewref) {
+      console.log("inside if");
+      const maxWidth = previewref.current!.offsetWidth;
       const maxHeight = previewref.current!.offsetHeight;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
 
@@ -37,36 +39,60 @@ const Preview = () => {
     }
   };
 
-  useEffect(() => {
-    // scale();
-  }, [windowWidth]);
+  /*useEffect(() => {
+    scale();
+  }, [windowWidth]);*/
 
-  const resize = () => {
+  /*const resize = () => {
     setWindowWidth(window.innerWidth);
     scale();
-  };
+  };*/
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
+  useLayoutEffect(() => {
+    console.log(window.innerWidth);
+    // scale(window.innerWidth);
+    if (ref && widthref && previewref) {
+
+      // on initial render 0 values are: previewref -> scalingFactor
+
+      const maxWidth = previewref.current!.offsetWidth;
+      const maxHeight = previewref.current!.offsetHeight;
+      let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
+      console.log(maxWidth, " ", scalingFactor, " ", widthref.current!.offsetWidth);
+
+      if (window.innerWidth > 1000) {
+        if (scalingFactor > 1) {
+          scalingFactor = 1;
+        }
+        ref.current!.style.scale = scalingFactor.toString();
+        previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
+      } else if (window.innerWidth < 1000) {
+        if (scalingFactor > 1) {
+          scalingFactor = 1;
+        }
+        scalingFactor = scalingFactor * 0.95;
+        ref.current!.style.scale = scalingFactor.toString();
+        previewref.current!.style.width = `${(window.innerWidth).toString()}px`;
+        previewref.current!.style.marginBottom = `${((ref.current!.offsetHeight * scalingFactor * 0.05) / 2).toString()}px`;
+      }
+
+      previewref.current!.style.height = `${(ref.current!.offsetHeight * scalingFactor).toString()}px`;
+    }
+  }, []);
+
+  /*useEffect(() => {
     resize();
     window.addEventListener("resize", resize);
 
     return () => {
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, []);*/
 
-  const pagebreak = () => {
-    if (ref.current!.offsetHeight > (widthref.current!.offsetWidth * (297 / 210))) {
-      console.log("Over A4");
-    }
-    console.log(ref.current!.innerHTML);
-  };
-
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(resumeData);
     sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
-  }, [resumeData]);
+  }, [resumeData]);*/
 
   return (
     <>
