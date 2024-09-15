@@ -1,14 +1,20 @@
 "use client";
 
 import {PaymentElement, useElements, useStripe} from "@stripe/react-stripe-js";
-import {FormEvent, useEffect, useState} from "react";
+import {FormEvent, useEffect, useRef, useState} from "react";
+import {PaymentIntent} from "@stripe/stripe-js";
+import {useResumeContext} from "@/components/ResumeContext";
+import styles from "./Checkout.module.css";
 
 const Checkout = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [cs, setCs] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
+  const {resumeData} = useResumeContext();
+  const [payBtnText, setPayBtnText] = useState<string>("Pay and download");
 
+  const payref = useRef<HTMLButtonElement>(null);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -41,6 +47,31 @@ const Checkout = () => {
     }
   };
 
+  const download = async (paymentIntent: PaymentIntent) => {
+    const response = await fetch("/api/pdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        paymentIntent_id: paymentIntent?.id,
+        data: resumeData
+      })
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "resume.pdf";
+      document.body.appendChild(a);
+
+      a.click();
+    }
+  };
 
   useEffect(() => {
     if (!cs || !stripe) {
@@ -66,7 +97,12 @@ const Checkout = () => {
         // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
         switch (paymentIntent!.status) {
           case 'succeeded':
-            setMessage('Success! Payment received.');
+            if (payref.current) {
+              payref.current.className = styles.pay;
+              setPayBtnText("🎉 Success, starting download...");
+            }
+            setMessage('Success! Payment received. Starting the download...');
+            if (paymentIntent) download(paymentIntent);
             break;
 
           case 'processing':
@@ -86,12 +122,23 @@ const Checkout = () => {
       });
   }, [cs]);
 
+  const handlePayAnimation = () => {
+    if (payref.current) {
+      payref.current.className = styles.paygray;
+      setPayBtnText("Processing...");
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement/>
-      <button>Pay and download</button>
-      {(message.length > 0) && <div>{message}</div>}
-      {errorMessage && <div>{errorMessage}</div>}
+      <div className={styles.paydiv}>
+        <p>Grand total: 2.29 €</p>
+        <button ref={payref} className={styles.pay}
+                onClick={handlePayAnimation}>{payBtnText}
+        </button>
+        {errorMessage && <div>{errorMessage}</div>}
+      </div>
     </form>
   );
 };

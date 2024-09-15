@@ -63,8 +63,7 @@ const Editor = () => {
 
   const options = {
     clientSecret: clientSecret,
-    appearance: {},
-    // paymentMethods:
+    
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -190,7 +189,7 @@ const Editor = () => {
     });
   };
 
-  const downloadPdf = async () => {
+  /*const downloadPdf = async () => {
     const response = await fetch("/api/pdf", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -208,7 +207,7 @@ const Editor = () => {
 
       a.click();
     }
-  };
+  };*/
 
   const saveResumeData = () => {
     const a = document.createElement("a");
