@@ -102,5 +102,6 @@
   .preview {
     position: relative;
     top: unset;
+    width: 100%;
   }
 }
