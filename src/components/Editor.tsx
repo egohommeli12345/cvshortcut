@@ -7,7 +7,13 @@ import {
   ResumeDataInterface, SkillInterface,
   useResumeContext
 } from "@/components/ResumeContext";
-import {ChangeEvent, useRef, useState, useCallback} from "react";
+import {
+  ChangeEvent,
+  useRef,
+  useState,
+  useCallback,
+  useLayoutEffect
+} from "react";
 import {loadStripe} from "@stripe/stripe-js";
 import Checkout from "@/components/Checkout";
 import {Elements} from "@stripe/react-stripe-js";

@@ -55,8 +55,8 @@ const Preview = () => {
 
       // on initial render 0 values are: previewref -> scalingFactor
 
-      const maxWidth = previewref.current!.offsetWidth;
-      const maxHeight = previewref.current!.offsetHeight;
+      let maxWidth = previewref.current!.offsetWidth;
+      if (maxWidth >= widthref.current!.offsetWidth) maxWidth = widthref.current!.offsetWidth;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
       console.log(maxWidth, " ", scalingFactor, " ", widthref.current!.offsetWidth);
 
@@ -79,20 +79,6 @@ const Preview = () => {
       previewref.current!.style.height = `${(ref.current!.offsetHeight * scalingFactor).toString()}px`;
     }
   }, []);
-
-  /*useEffect(() => {
-    resize();
-    window.addEventListener("resize", resize);
-
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
-  }, []);*/
-
-  /*useEffect(() => {
-    console.log(resumeData);
-    sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
-  }, [resumeData]);*/
 
   return (
     <>

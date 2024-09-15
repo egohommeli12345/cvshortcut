@@ -19,6 +19,7 @@
   /*background-color: white;*/
   padding: 5rem;
   box-sizing: border-box;
+  max-width: 1920px;
 }
 
 .col1 {
@@ -74,10 +75,10 @@
   display: flex;
   width: 80%;
   height: fit-content;
-  max-width: 1920px;
   justify-content: center;
   margin-bottom: 1rem;
   gap: 8px;
+  max-width: 1920px;
 }
 
 .appversion {
@@ -95,6 +96,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 1920px;
 }
 
 .appfrom {
