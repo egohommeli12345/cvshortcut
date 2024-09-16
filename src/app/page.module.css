@@ -39,6 +39,8 @@
   margin: 0;
   line-height: 4.5rem;
   letter-spacing: -3px;
+  display: flex;
+  flex-direction: column;
 }
 
 .heading {
