@@ -13,8 +13,8 @@ export default function Home() {
       <p className={styles.appversion}>App version: v.0.1</p>
       <div className={styles.hero}>
         <div className={styles.col1}>
-          <h1 className={styles.heading}>Create a professional<span
-            className={styles.standout}>Resume</span>in minutes
+          <h1 className={styles.heading}>Create a professional <span
+            className={styles.standout}>Resume</span> in minutes
           </h1>
           <p>Designed for simplicity and speed, our tool guides you
             through each step, ensuring you craft a standout resume with minimal
