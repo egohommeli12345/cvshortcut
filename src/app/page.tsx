@@ -2,6 +2,7 @@ import styles from "./page.module.css";
 import Editor from "@/components/Editor";
 import Preview from "@/components/Preview";
 import {ResumeProvider} from "@/components/ResumeContext";
+import Image from "next/image";
 
 
 export default function Home() {
@@ -24,10 +25,35 @@ export default function Home() {
         </div>
         <div className={styles.col2}>
           <div className={styles.box}>
-
+            <h3>Our CV builder</h3>
+            <div className={styles.list}>
+              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Fast
+              </p>
+              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Easy to use</p>
+              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Professional layout</p>
+              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>You focus only on the content</p>
+              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Mobile friendly*</p>
+            </div>
           </div>
           <div className={styles.box}>
-
+            <h3>Making CV manually</h3>
+            <div className={styles.list}>
+              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Slow</p>
+              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Difficult, too many options</p>
+              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Manual layout</p>
+              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Can&apos;t focus only on the content</p>
+              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
+                        height={32}/>Nearly impossible to do on mobile</p>
+            </div>
           </div>
         </div>
       </div>
