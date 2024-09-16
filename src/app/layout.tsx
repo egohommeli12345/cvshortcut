@@ -7,8 +7,9 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-  title: "CVShortcut",
-  description: "Super simple and blazingly fast resume generator",
+  title: "Resume builder: create your resume in minutes",
+  description: "Fastest CV builder on the internet, fill in your info and" +
+    " download PDF.",
 
 };
 
