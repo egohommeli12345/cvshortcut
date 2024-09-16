@@ -5,6 +5,7 @@ import {FormEvent, useEffect, useRef, useState} from "react";
 import {PaymentIntent} from "@stripe/stripe-js";
 import {useResumeContext} from "@/components/ResumeContext";
 import styles from "./Checkout.module.css";
+import generateDiscountCode from "@/apiHelpers/generateDiscountCode";
 
 const Checkout = () => {
   const stripe = useStripe();
@@ -13,6 +14,8 @@ const Checkout = () => {
   const [message, setMessage] = useState<string>("");
   const {resumeData} = useResumeContext();
   const [payBtnText, setPayBtnText] = useState<string>("Pay and download");
+  const [pdf, setPdf] = useState<string>("");
+  const [coupon, setCoupon] = useState<string>("");
 
   const payref = useRef<HTMLButtonElement>(null);
 
@@ -37,8 +40,19 @@ const Checkout = () => {
       // This point will only be reached if there is an immediate error when
       // confirming the payment. Show error to your customer (for example, payment
       // details incomplete)
-      if (error.message) setErrorMessage(error.message);
-      else {
+
+      if (error.message) {
+        setErrorMessage(error.message);
+        if (payref.current) {
+          payref.current.className = styles.payred;
+          setPayBtnText(error.message);
+          setTimeout(() => {
+            payref.current!.className = styles.pay;
+            setPayBtnText("Pay and download");
+            setMessage("");
+          }, 3000);
+        }
+      } else {
         setErrorMessage("error");
       }
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
@@ -63,13 +77,16 @@ const Checkout = () => {
       const blob = await response.blob();
 
       const url = window.URL.createObjectURL(blob);
+      setPdf(url);
+      window.open(url, '_blank');
 
-      const a = document.createElement("a");
+      /*const a = document.createElement("a");
       a.href = url;
       a.download = "resume.pdf";
       document.body.appendChild(a);
 
       a.click();
+      document.body.removeChild(a);*/
     }
   };
 
@@ -129,15 +146,55 @@ const Checkout = () => {
     }
   };
 
+  const checkDiscount = async (code: string) => {
+    const response = await fetch("/api/check_discount", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({discountCode: code, data: resumeData})
+    });
+    if (response.ok) {
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      setPdf(url);
+      window.open(url, '_blank');
+    }
+  };
+
+  const log = async () => {
+    console.log(await generateDiscountCode());
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement/>
       <div className={styles.paydiv}>
-        <p>Grand total: 2.29 €</p>
+        <strong>Grand total: 2.29 €</strong>
         <button ref={payref} className={styles.pay}
                 onClick={handlePayAnimation}>{payBtnText}
         </button>
-        {errorMessage && <div>{errorMessage}</div>}
+        <div className={styles.discount}>
+          <input type="text" className={styles.discountinput}
+                 value={coupon}
+                 onChange={(e) => setCoupon(e.target.value)}
+                 placeholder={"Free resume coupon"}/>
+          <button type={"button"}
+                  className={styles.discountbtn}
+                  onClick={() => checkDiscount(coupon)}>Check
+            coupon
+          </button>
+        </div>
+        {/*<button type={"button"}
+                onClick={() => log()}>btn
+        </button>*/}
+        <p>* Make sure your browser allows opening PDF-file in a new tab!</p>
+        <p>Some
+          mobile browsers prevent the PDF from opening.</p>
+        {pdf.length > 0 &&
+          <a download={"resume.pdf"} href={pdf} target={"_blank"}>Link to your
+            resume</a>}
       </div>
     </form>
   );

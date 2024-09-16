@@ -16,6 +16,20 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.payred {
+  width: 100%;
+  height: 4rem;
+  border-radius: 0.2rem;
+  border: none;
+  background-color: #ff6363;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 .pay {
   width: 100%;
   height: 4rem;
@@ -30,8 +44,47 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.pay:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+.discount {
+  display: flex;
+  gap: 8px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.discountinput {
+  height: 2rem;
+  width: 70%;
+  border-radius: 0.2rem;
+  /*border: 1px solid lightgray;*/
+  border: none;
+  box-sizing: border-box;
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.discountinput:focus {
+  outline: 1px solid #cfcfcf;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.discountbtn {
+  height: 2rem;
+  flex-grow: 1;
+  border: none;
+  background-color: #2b2b2b;
+  border-radius: 0.2rem;
+  color: white;
+}
+
+.discountbtn:hover {
   cursor: pointer;
+  background-color: #373737;
+}
+
+@media screen and (min-width: 1000px) {
+  .pay:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
 }
