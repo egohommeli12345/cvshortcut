@@ -3,7 +3,6 @@ import {createHmac} from "crypto";
 const generateDiscountCode = async () => {
   const date = new Date().getUTCHours();
   const secret = process.env.DISCOUNT_SECRET || '';
-  console.log(date);
 
   // Create HMAC using the SHA-256 algorithm
   const hmac = createHmac('sha256', secret);
