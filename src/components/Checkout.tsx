@@ -154,6 +154,7 @@ const Checkout = () => {
       },
       body: JSON.stringify({discountCode: code, data: resumeData})
     });
+    console.log(JSON.stringify({discountCode: code, data: resumeData}));
     if (response.ok) {
       const blob = await response.blob();
 

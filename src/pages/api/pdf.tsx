@@ -15,27 +15,17 @@ const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
     const status = paymentIntent.status;
 
     if (status === "succeeded") {
-      const browser = await puppeteer.launch({
-        args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"],
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: true,
+      const pdf = await fetch("https://api.cvshortcut.com/v1/pdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({data: req.body.data})
       });
-      const page = await browser.newPage();
-
-      await page.setContent(html);
-
-      const pdfBuffer = await page.pdf({
-        format: "a4",
-        margin: {top: "0", left: "0", bottom: "0", right: "0"},
-        printBackground: true,
-      });
-
-      await browser.close();
 
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
-      res.end(pdfBuffer);
+      res.end(pdf);
       // res.send(html);
     } else {
 

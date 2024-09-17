@@ -13,27 +13,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (userInputtedDiscount === realDiscount) {
         // res.status(200).json({validDiscount: true});
-        const browser = await puppeteer.launch({
-          args: chromium.args,
-          defaultViewport: chromium.defaultViewport,
-          executablePath: await chromium.executablePath,
-          headless: true,
-        });
-        const page = await browser.newPage();
-
-        await page.setContent(html);
-
-        const pdfBuffer = await page.pdf({
-          format: "a4",
-          margin: {top: "0", left: "0", bottom: "0", right: "0"},
-          printBackground: true,
+        const pdfResponse = await fetch("http://api.cvshortcut.com/v1/pdf", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({data: req.body.data})
         });
 
-        await browser.close();
+        const pdfBuffer = await pdfResponse.arrayBuffer();
 
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
-        res.end(pdfBuffer);
+        res.end(Buffer.from(pdfBuffer));
       }
     } else {
       res.status(401).json({validDiscount: false});
