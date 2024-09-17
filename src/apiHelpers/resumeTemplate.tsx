@@ -1,9 +1,10 @@
 import {ResumeDataInterface} from "@/components/ResumeContext";
+import * as fs from "node:fs";
+import path from "node:path";
 
 export const resumeTemplate = (resumeData: ResumeDataInterface) => `
 <html>
   <head>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     ${cssStyles()}
   </head>
   <body>
@@ -278,8 +279,32 @@ export const resumeTemplateMock = () => `
 </html>
 `;
 
-const cssStyles = () => `
+const readFontAsBase64 = (fontPath: string) => {
+  const fontBuffer = fs.readFileSync(fontPath);
+  return fontBuffer.toString('base64');
+};
+
+const cssStyles = () => {
+  // Fonts
+  const variableFontBase64 = readFontAsBase64(path.join(process.cwd(), "public", "fonts", "InterVariable.ttf"));
+  const variableItalicFontBase64 = readFontAsBase64(path.join(process.cwd(), "public", "fonts", "InterVariable-Italic.ttf"));
+
+  return `
 <style>
+@font-face {
+  font-family: "Inter";
+  src: url(data:font/ttf;base64,${variableFontBase64}) format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url(data:font/ttf;base64,${variableItalicFontBase64}) format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+}
+
 * {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -370,3 +395,4 @@ body {
 }
 </style>
 `;
+};

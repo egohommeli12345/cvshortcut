@@ -1,10 +1,9 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import puppeteer from "puppeteer";
-import {Inter} from "next/font/google";
+import puppeteer from "puppeteer-core";
+import chromium from "chrome-aws-lambda";
 import {resumeTemplate} from "@/apiHelpers/resumeTemplate";
 import Stripe from "stripe";
 
-const inter = Inter({subsets: ["latin"]});
 const stripe = new Stripe(process.env.STRIPE_SECRET!);
 
 const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -16,7 +15,12 @@ const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
     const status = paymentIntent.status;
 
     if (status === "succeeded") {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({
+        args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"],
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: true,
+      });
       const page = await browser.newPage();
 
       await page.setContent(html);

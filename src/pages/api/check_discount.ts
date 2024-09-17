@@ -1,7 +1,8 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import generateDiscountCode from "@/apiHelpers/generateDiscountCode";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 import {resumeTemplate} from "@/apiHelpers/resumeTemplate";
+import chromium from "chrome-aws-lambda";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -12,7 +13,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (userInputtedDiscount === realDiscount) {
         // res.status(200).json({validDiscount: true});
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+          args: chromium.args,
+          defaultViewport: chromium.defaultViewport,
+          executablePath: await chromium.executablePath,
+          headless: true,
+        });
         const page = await browser.newPage();
 
         await page.setContent(html);
