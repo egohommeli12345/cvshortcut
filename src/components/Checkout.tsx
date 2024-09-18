@@ -68,7 +68,6 @@ const Checkout = ({clientSecret, initPayment}: {
   const download = async (paymentIntent: PaymentIntent) => {
     const savedResumeData = JSON.parse(localStorage.getItem("resumeData") || "{}");
     setResumeData(savedResumeData);
-    console.log(savedResumeData);
     const response = await fetch("/api/pdf", {
       method: "POST",
       headers: {

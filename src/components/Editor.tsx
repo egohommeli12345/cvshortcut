@@ -59,7 +59,6 @@ const Editor = () => {
 
   const initPayment = async () => {
     await fetchClientSecret();
-    console.log("init");
   };
 
   const options = {
@@ -70,7 +69,6 @@ const Editor = () => {
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
     );
-    console.log(clientSecret);
     if (clientSecret) setClientSecret(clientSecret);
     if (!clientSecret) initPayment();
   }, []);
