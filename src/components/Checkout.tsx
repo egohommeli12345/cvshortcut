@@ -5,14 +5,16 @@ import {FormEvent, useEffect, useRef, useState} from "react";
 import {PaymentIntent} from "@stripe/stripe-js";
 import {useResumeContext} from "@/components/ResumeContext";
 import styles from "./Checkout.module.css";
-import generateDiscountCode from "@/apiHelpers/generateDiscountCode";
 
-const Checkout = () => {
+const Checkout = ({clientSecret, initPayment}: {
+  clientSecret: string,
+  initPayment: () => {}
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [cs, setCs] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
-  const {resumeData} = useResumeContext();
+  const {resumeData, setResumeData} = useResumeContext();
   const [payBtnText, setPayBtnText] = useState<string>("Pay and download");
   const [pdf, setPdf] = useState<string>("");
   const [coupon, setCoupon] = useState<string>("");
@@ -23,6 +25,8 @@ const Checkout = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
+    localStorage.setItem("resumeData", JSON.stringify(resumeData));
 
     if (!stripe || !elements) {
       return;
@@ -62,6 +66,9 @@ const Checkout = () => {
   };
 
   const download = async (paymentIntent: PaymentIntent) => {
+    const savedResumeData = JSON.parse(localStorage.getItem("resumeData") || "{}");
+    setResumeData(savedResumeData);
+    console.log(savedResumeData);
     const response = await fetch("/api/pdf", {
       method: "POST",
       headers: {
@@ -69,7 +76,7 @@ const Checkout = () => {
       },
       body: JSON.stringify({
         paymentIntent_id: paymentIntent?.id,
-        data: resumeData
+        data: savedResumeData
       })
     });
 
@@ -87,57 +94,64 @@ const Checkout = () => {
 
       a.click();
       document.body.removeChild(a);*/
+    } else if (response.status === 401) {
+      if (payref.current) payref.current.className = styles.payred;
+      setPayBtnText("Payment has been used");
+      setTimeout(() => {
+        history.replaceState(null, '', window.location.pathname);
+        window.location.reload();
+        // payref.current!.className = styles.pay;
+        // setPayBtnText("Pay and download");
+      }, 3000);
     }
   };
 
   useEffect(() => {
-    if (!cs || !stripe) {
+    if (!stripe) {
       return;
     }
 
-    // Retrieve the "payment_intent_client_secret" query parameter appended to
-    // your return_url by Stripe.js
-    /*const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
-    );*/
+    if (clientSecret) {
+      // Retrieve the PaymentIntent
+      stripe
+        .retrievePaymentIntent(clientSecret)
+        .then(({paymentIntent}) => {
+          // Inspect the PaymentIntent `status` to indicate the status of the payment
+          // to your customer.
+          //
+          // Some payment methods will [immediately succeed or fail][0] upon
+          // confirmation, while others will first enter a `processing` state.
+          //
+          // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
 
-    // Retrieve the PaymentIntent
-    stripe
-      .retrievePaymentIntent(cs)
-      .then(({paymentIntent}) => {
-        // Inspect the PaymentIntent `status` to indicate the status of the payment
-        // to your customer.
-        //
-        // Some payment methods will [immediately succeed or fail][0] upon
-        // confirmation, while others will first enter a `processing` state.
-        //
-        // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
-        switch (paymentIntent!.status) {
-          case 'succeeded':
-            if (payref.current) {
-              payref.current.className = styles.pay;
-              setPayBtnText("🎉 Success, starting download...");
-            }
-            setMessage('Success! Payment received. Starting the download...');
-            if (paymentIntent) download(paymentIntent);
-            break;
+          switch (paymentIntent!.status) {
+            case 'succeeded':
+              if (payref.current) {
+                payref.current.scrollIntoView({behavior: "smooth"});
+                payref.current.className = styles.pay;
+                setPayBtnText("🎉 Success, starting download...");
+              }
+              setMessage('Success! Payment received. Starting the download...');
+              if (paymentIntent) download(paymentIntent);
+              break;
 
-          case 'processing':
-            setMessage("Payment processing. We'll update you when payment is received.");
-            break;
+            case 'processing':
+              setMessage("Payment processing. We'll update you when payment is received.");
+              break;
 
-          case 'requires_payment_method':
-            // Redirect your user back to your payment page to attempt collecting
-            // payment again
-            setMessage('Payment failed. Please try another payment method.');
-            break;
+            case 'requires_payment_method':
+              // Redirect your user back to your payment page to attempt collecting
+              // payment again
+              setMessage('Payment failed. Please try another payment method.');
+              break;
 
-          default:
-            setMessage('Something went wrong.');
-            break;
-        }
-      });
-  }, [cs]);
+            default:
+              setMessage('Something went wrong.');
+              break;
+          }
+        });
+    }
+  }, [stripe, clientSecret]);
 
   const handlePayAnimation = () => {
     if (payref.current) {
@@ -154,7 +168,6 @@ const Checkout = () => {
       },
       body: JSON.stringify({discountCode: code, data: resumeData})
     });
-    console.log(JSON.stringify({discountCode: code, data: resumeData}));
     if (response.ok) {
       const blob = await response.blob();
 
@@ -164,13 +177,9 @@ const Checkout = () => {
     }
   };
 
-  const log = async () => {
-    console.log(await generateDiscountCode());
-  };
-
   return (
     <form onSubmit={handleSubmit}>
-      <PaymentElement/>
+      <PaymentElement key={clientSecret}/>
       <div className={styles.paydiv}>
         <strong>Grand total: 2.29 €</strong>
         <button ref={payref} className={styles.pay}
@@ -187,9 +196,6 @@ const Checkout = () => {
             coupon
           </button>
         </div>
-        {/*<button type={"button"}
-                onClick={() => log()}>btn
-        </button>*/}
         <p>* Make sure your browser allows opening PDF-file in a new tab!</p>
         <p>Some
           mobile browsers prevent the PDF from opening.</p>

@@ -25,6 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         amount: 229,
         currency: "eur",
         automatic_payment_methods: {enabled: true},
+        metadata: {
+          is_used: "false"
+        }
       });
 
       res.status(200).json({client_secret: payment_intent.client_secret});

@@ -9,7 +9,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "POST") {
       const userInputtedDiscount = req.body.discountCode;
       const realDiscount = await generateDiscountCode();
-      const html = resumeTemplate(req.body.data);
 
       if (userInputtedDiscount === realDiscount) {
         // res.status(200).json({validDiscount: true});

@@ -12,11 +12,11 @@ import {
   useRef,
   useState,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect, useEffect
 } from "react";
 import {loadStripe} from "@stripe/stripe-js";
 import Checkout from "@/components/Checkout";
-import {Elements} from "@stripe/react-stripe-js";
+import {Elements, useElements, useStripe} from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC!);
 
@@ -59,12 +59,21 @@ const Editor = () => {
 
   const initPayment = async () => {
     await fetchClientSecret();
+    console.log("init");
   };
 
   const options = {
     clientSecret: clientSecret,
-    
   };
+
+  useEffect(() => {
+    const clientSecret = new URLSearchParams(window.location.search).get(
+      "payment_intent_client_secret"
+    );
+    console.log(clientSecret);
+    if (clientSecret) setClientSecret(clientSecret);
+    if (!clientSecret) initPayment();
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -188,26 +197,6 @@ const Editor = () => {
       [name]: value,
     });
   };
-
-  /*const downloadPdf = async () => {
-    const response = await fetch("/api/pdf", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(resumeData)
-    });
-    if (response.ok) {
-      const blob = await response.blob();
-
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "resume.pdf";
-      document.body.appendChild(a);
-
-      a.click();
-    }
-  };*/
 
   const saveResumeData = () => {
     const a = document.createElement("a");
@@ -370,15 +359,15 @@ const Editor = () => {
               editor data locally
             </button>*/}
           </div>
-          <button className={styles.greenbtn} onClick={initPayment}>Download
+          {/*<button className={styles.greenbtn} onClick={initPayment}>Download
             PDF for 2.29 €
-          </button>
+          </button>*/}
           {stripePromise && clientSecret &&
             <Elements
               stripe={stripePromise}
               options={options}
             >
-              <Checkout/>
+              <Checkout clientSecret={clientSecret} initPayment={initPayment}/>
             </Elements>}
 
         </div>
