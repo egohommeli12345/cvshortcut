@@ -136,20 +136,20 @@ const Checkout = ({clientSecret, initPayment}: {
 
             case 'processing':
               setMessage("Payment processing. We'll update you when payment is received.");
-              setPayBtnText("Payment processing. We'll update you when" +
-                " payment is received.");
+              // setPayBtnText("Payment processing. We'll update you when" +
+              //   " payment is received.");
               break;
 
             case 'requires_payment_method':
               // Redirect your user back to your payment page to attempt collecting
               // payment again
               setMessage('Payment failed. Please try another payment method.');
-              setPayBtnText('Payment failed. Please try another payment method.');
+              // setPayBtnText('Payment failed. Please try another payment method.');
               break;
 
             default:
               setMessage('Something went wrong.');
-              setPayBtnText('Something went wrong.');
+              // setPayBtnText('Something went wrong.');
               break;
           }
         });
