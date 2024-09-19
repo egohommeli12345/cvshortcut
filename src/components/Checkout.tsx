@@ -58,10 +58,10 @@ const Checkout = ({clientSecret, initPayment}: {
       } else {
         setErrorMessage("error");
       }
-    } else if (paymentIntent && paymentIntent.status === "succeeded") {
+    } /*else if (paymentIntent && paymentIntent.status === "succeeded") {
       // Handle any other payment status, like "requires_action" for 3D Secure, etc.
       setCs(paymentIntent.client_secret);
-    }
+    }*/
   };
 
   const download = async (paymentIntent: PaymentIntent) => {
