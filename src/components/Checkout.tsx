@@ -33,11 +33,10 @@ const Checkout = ({clientSecret, initPayment}: {
     }
 
     const {
-      error, paymentIntent
+      error
     } = await stripe.confirmPayment({
       elements: elements,
       confirmParams: {return_url: origin},
-      redirect: "if_required"
     });
 
     if (error) {
