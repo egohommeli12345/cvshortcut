@@ -18,6 +18,7 @@ const Checkout = ({clientSecret, initPayment}: {
   const [payBtnText, setPayBtnText] = useState<string>("Pay and download");
   const [pdf, setPdf] = useState<string>("");
   const [coupon, setCoupon] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const payref = useRef<HTMLButtonElement>(null);
 
@@ -27,6 +28,7 @@ const Checkout = ({clientSecret, initPayment}: {
     event.preventDefault();
 
     localStorage.setItem("resumeData", JSON.stringify(resumeData));
+    localStorage.setItem("email", email);
 
     if (!stripe || !elements) {
       return;
@@ -66,6 +68,7 @@ const Checkout = ({clientSecret, initPayment}: {
 
   const download = async (paymentIntent: PaymentIntent) => {
     const savedResumeData = JSON.parse(localStorage.getItem("resumeData") || "{}");
+    const savedEmail = localStorage.getItem("email") || "";
     setResumeData(savedResumeData);
     const response = await fetch("/api/pdf", {
       method: "POST",
@@ -74,7 +77,8 @@ const Checkout = ({clientSecret, initPayment}: {
       },
       body: JSON.stringify({
         paymentIntent_id: paymentIntent?.id,
-        data: savedResumeData
+        data: savedResumeData,
+        email: savedEmail
       })
     });
 
@@ -83,15 +87,14 @@ const Checkout = ({clientSecret, initPayment}: {
 
       const url = window.URL.createObjectURL(blob);
       setPdf(url);
-      window.open(url, '_blank');
 
-      /*const a = document.createElement("a");
+      const a = document.createElement("a");
       a.href = url;
       a.download = "resume.pdf";
       document.body.appendChild(a);
 
       a.click();
-      document.body.removeChild(a);*/
+      document.body.removeChild(a);
     } else if (response.status === 401) {
       if (payref.current) payref.current.className = styles.payred;
       setPayBtnText("Payment has been used");
@@ -162,6 +165,22 @@ const Checkout = ({clientSecret, initPayment}: {
     }
   };
 
+  useEffect(() => {
+    if (email.length < 5 || !email.includes("@")) {
+      if (payref.current) {
+        payref.current.className = styles.paygray;
+        payref.current.disabled = true;
+        setPayBtnText("Input your email to pay");
+      }
+    } else {
+      if (payref.current) {
+        payref.current.className = styles.pay;
+        payref.current.disabled = false;
+        setPayBtnText("Pay and download");
+      }
+    }
+  }, [email]);
+
   const checkDiscount = async (code: string) => {
     const response = await fetch("/api/check_discount", {
       method: "POST",
@@ -183,6 +202,15 @@ const Checkout = ({clientSecret, initPayment}: {
     <form onSubmit={handleSubmit}>
       <PaymentElement key={clientSecret}/>
       <div className={styles.paydiv}>
+        <div className={styles.email}>
+          <label htmlFor="email">Email address you want to receive the PDF
+            with:</label>
+          <input type="text" className={styles.emailinput}
+                 value={email}
+                 id={"email"}
+                 onChange={(e) => setEmail(e.target.value)}
+                 placeholder={"Your email address here"}/>
+        </div>
         <strong>Grand total: 2.29 €</strong>
         <button ref={payref} className={styles.pay}
                 onClick={handlePayAnimation}>{payBtnText}

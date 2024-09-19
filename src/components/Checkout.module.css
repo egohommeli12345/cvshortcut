@@ -51,6 +51,25 @@
   margin-bottom: 2rem;
 }
 
+.email {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.emailinput {
+  height: 2rem;
+  width: 100%;
+  border-radius: 0.2rem;
+  /*border: 1px solid lightgray;*/
+  border: none;
+  box-sizing: border-box;
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
 .discountinput {
   height: 2rem;
   width: 70%;
