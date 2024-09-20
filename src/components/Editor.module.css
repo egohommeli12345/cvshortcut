@@ -71,6 +71,7 @@
 
 .btn:hover {
   background-color: #cacaca;
+  cursor: pointer;
 }
 
 .redbtn {

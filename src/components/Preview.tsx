@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Preview.module.css";
-import {useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useLayoutEffect, useRef} from "react";
 import {useResumeContext} from "@/components/ResumeContext";
 
 const Preview = () => {
@@ -12,53 +12,11 @@ const Preview = () => {
   const pagebreakref = useRef<HTMLDivElement>(null);
   // const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
 
-  const scale = (windowWidth: number) => {
-    if (ref && widthref && previewref) {
-      console.log("inside if");
-      const maxWidth = previewref.current!.offsetWidth;
-      const maxHeight = previewref.current!.offsetHeight;
-      let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
-
-      if (windowWidth > 1000) {
-        if (scalingFactor > 1) {
-          scalingFactor = 1;
-        }
-        ref.current!.style.scale = scalingFactor.toString();
-        previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
-      } else if (windowWidth < 1000) {
-        if (scalingFactor > 1) {
-          scalingFactor = 1;
-        }
-        scalingFactor = scalingFactor * 0.95;
-        ref.current!.style.scale = scalingFactor.toString();
-        previewref.current!.style.width = `${(windowWidth).toString()}px`;
-        previewref.current!.style.marginBottom = `${((ref.current!.offsetHeight * scalingFactor * 0.05) / 2).toString()}px`;
-      }
-
-      previewref.current!.style.height = `${(ref.current!.offsetHeight * scalingFactor).toString()}px`;
-    }
-  };
-
-  /*useEffect(() => {
-    scale();
-  }, [windowWidth]);*/
-
-  /*const resize = () => {
-    setWindowWidth(window.innerWidth);
-    scale();
-  };*/
-
   useLayoutEffect(() => {
-    console.log(window.innerWidth);
-    // scale(window.innerWidth);
     if (ref && widthref && previewref) {
-
-      // on initial render 0 values are: previewref -> scalingFactor
-
       let maxWidth = previewref.current!.offsetWidth;
       if (maxWidth >= widthref.current!.offsetWidth) maxWidth = widthref.current!.offsetWidth;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
-      console.log(maxWidth, " ", scalingFactor, " ", widthref.current!.offsetWidth);
 
       if (window.innerWidth > 1000) {
         if (scalingFactor > 1) {
@@ -94,7 +52,7 @@ const Preview = () => {
                 <p className={styles.title}>{resumeData.title}</p>
               </div>}
 
-            {(resumeData.address?.length > 0 || resumeData.phone?.length > 0 || resumeData.email?.length > 0) &&
+            {(resumeData.address?.length > 0 || resumeData.phone?.length > 0 || resumeData.email?.length > 0 || resumeData.linkedin?.length > 0) &&
               <div className={styles.section}>
                 <div className={styles.address}>
                   {resumeData.address?.length > 0 &&
@@ -103,6 +61,8 @@ const Preview = () => {
                     <p><strong>Phone: </strong>{resumeData.phone}</p>}
                   {resumeData.email?.length > 0 &&
                     <p><strong>E-mail: </strong>{resumeData.email}</p>}
+                  {resumeData.linkedin?.length > 0 &&
+                    <p><strong>Linkedin: </strong>{resumeData.linkedin}</p>}
                 </div>
               </div>}
 
@@ -187,7 +147,6 @@ const Preview = () => {
               </div>}
 
           </div>
-          {/*<button onClick={pagebreak}>Button</button>*/}
         </div>
       </div>
     </>

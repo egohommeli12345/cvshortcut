@@ -22,7 +22,14 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC!);
 
 
 const Editor = () => {
-  const {resumeData, setResumeData, updateField} = useResumeContext();
+  const {
+    resumeData,
+    setResumeData,
+    updateField,
+    resetResumeData,
+    saveResumeData,
+    loadResumeData
+  } = useResumeContext();
   const [tempexperience, setTempexperience] = useState<ExperienceInterface>({
     from: "",
     listitem: [],
@@ -44,6 +51,8 @@ const Editor = () => {
   const bpExpref = useRef<HTMLInputElement>(null);
   const bpEduref = useRef<HTMLInputElement>(null);
   const bpSkillref = useRef<HTMLInputElement>(null);
+
+  const [txtfile, setTxtfile] = useState<FileList | null>(null);
 
   // For Stripe
   const [clientSecret, setClientSecret] = useState<string>("");
@@ -71,6 +80,9 @@ const Editor = () => {
     );
     if (clientSecret) setClientSecret(clientSecret);
     if (!clientSecret) initPayment();
+    if (localStorage.getItem("resumeData")) {
+      setResumeData(JSON.parse(localStorage.getItem("resumeData") || "{}"));
+    }
   }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -196,14 +208,6 @@ const Editor = () => {
     });
   };
 
-  const saveResumeData = () => {
-    const a = document.createElement("a");
-    const file = new Blob([JSON.stringify(resumeData)], {type: "text/plain"});
-    a.href = URL.createObjectURL(file);
-    a.download = "eaCV_resume_save.txt";
-    a.click();
-  };
-
   return (
     <>
       <div className={styles.editor}>
@@ -235,6 +239,11 @@ const Editor = () => {
           <input className={styles.input} id={"email"} type="text"
                  name={"email"} onChange={handleChange}
                  value={resumeData.email}/>
+
+          <label htmlFor="linkedin">Linkedin</label>
+          <input className={styles.input} id={"linkedin"} type="text"
+                 name={"linkedin"} onChange={handleChange}
+                 value={resumeData.linkedin}/>
 
           <label htmlFor="summary">Summary</label>
           <textarea className={styles.textarea} name="summary" id="summary"
@@ -348,15 +357,7 @@ const Editor = () => {
         </div>
 
         <div className={styles.inputContainer}>
-          <div className={styles.twocolgrid}>
-            {/*<button className={styles.redbtn}
-                    onClick={() => setResumeData({})}>Empty
-              template
-            </button>
-            <button className={styles.btn} onClick={saveResumeData}>Save
-              editor data locally
-            </button>*/}
-          </div>
+
           {/*<button className={styles.greenbtn} onClick={initPayment}>Download
             PDF for 2.29 €
           </button>*/}
@@ -367,6 +368,20 @@ const Editor = () => {
             >
               <Checkout clientSecret={clientSecret} initPayment={initPayment}/>
             </Elements>}
+          <div className={styles.twocolgrid}>
+            <button className={styles.redbtn}
+                    onClick={resetResumeData}>Empty template
+            </button>
+            <button className={styles.btn} onClick={saveResumeData}>Save
+              editor data locally
+            </button>
+          </div>
+          <label htmlFor="files">Open saved file:</label>
+          <input type="file" id={"files"} accept={".txt"}
+                 className={styles.fileinput}
+                 onChange={(e) => {
+                   if (e.target.files) loadResumeData(e.target.files);
+                 }}/>
 
         </div>
 
