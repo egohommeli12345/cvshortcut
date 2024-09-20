@@ -54,7 +54,7 @@ const Editor = () => {
 
   const [txtfile, setTxtfile] = useState<FileList | null>(null);
 
-  // For Stripe
+  /*// For Stripe
   const [clientSecret, setClientSecret] = useState<string>("");
 
   const fetchClientSecret = useCallback(async () => {
@@ -83,7 +83,7 @@ const Editor = () => {
     if (localStorage.getItem("resumeData")) {
       setResumeData(JSON.parse(localStorage.getItem("resumeData") || "{}"));
     }
-  }, []);
+  }, []);*/
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -358,16 +358,13 @@ const Editor = () => {
 
         <div className={styles.inputContainer}>
 
-          {/*<button className={styles.greenbtn} onClick={initPayment}>Download
-            PDF for 2.29 €
-          </button>*/}
-          {stripePromise && clientSecret &&
+          {/*{stripePromise && clientSecret &&
             <Elements
               stripe={stripePromise}
               options={options}
             >
               <Checkout clientSecret={clientSecret} initPayment={initPayment}/>
-            </Elements>}
+            </Elements>}*/}
           <div className={styles.twocolgrid}>
             <button className={styles.redbtn}
                     onClick={resetResumeData}>Empty template

@@ -1,8 +1,11 @@
+"use client";
+
 import styles from "./page.module.css";
 import Editor from "@/components/Editor";
 import Preview from "@/components/Preview";
 import {ResumeProvider} from "@/components/ResumeContext";
 import Image from "next/image";
+import PaymentElement from "@/components/PaymentElement";
 
 
 export default function Home() {
@@ -22,7 +25,8 @@ export default function Home() {
             quickly.</p>
         </div>
         <div className={styles.col2}>
-          <div className={styles.box}>
+          <img src="resumeExample.png" alt="Example image of the resume"/>
+          {/*<div className={styles.box}>
             <h3>Our CV builder</h3>
             <div className={styles.list}>
               <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
@@ -52,16 +56,24 @@ export default function Home() {
               <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
                         height={32}/>Nearly impossible to do on mobile</p>
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
-      <div className={styles.center}>
 
+      {/*<div className={styles.example}>
+        <img src="resumeExample.png" alt="Example image of the resume"/>
+      </div>*/}
+
+      <div className={styles.center}>
         <ResumeProvider>
-          <Editor/>
-          <Preview/>
+          <div className={styles.centersub}>
+            <Editor/>
+            <Preview/>
+          </div>
+          <PaymentElement/>
         </ResumeProvider>
       </div>
+
       <div className={styles.footer}>
         <div className={styles.appfrom}>
           <p><strong>CVShortcut</strong> by Samuli Pirnes</p>

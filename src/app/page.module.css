@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 100vw;
   min-height: 100vh;
+  gap: 5rem;
   background: #f1f1f1;
 }
 
@@ -17,11 +18,11 @@
   height: 750px;
   width: 100%;
   /*background-color: white;*/
-  padding: 5rem;
+  padding: 5rem 10rem 0 10rem;
   box-sizing: border-box;
   max-width: 1920px;
   display: flex;
-  gap: 48px;
+  /*gap: 48px;*/
 }
 
 .col1 {
@@ -32,6 +33,7 @@
   align-items: start;
   justify-content: center;
   gap: 64px;
+  /*padding: 0 0 0 7rem;*/
 }
 
 .col1 h1 {
@@ -60,9 +62,14 @@
   width: 50%;
   display: flex;
   gap: 32px;
-  padding: 32px;
   box-sizing: border-box;
   align-items: center;
+  justify-content: flex-end;
+}
+
+.col2 img {
+  height: 100%;
+  box-shadow: 0 0 10px rgba(126, 126, 126, 0.3);
 }
 
 .box {
@@ -109,12 +116,19 @@
 
 .center {
   display: flex;
+  flex-direction: column;
   width: 80%;
   height: fit-content;
   justify-content: center;
   margin-bottom: 1rem;
-  gap: 8px;
+  gap: 5rem;
   max-width: 1920px;
+}
+
+.centersub {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 .appversion {
@@ -149,6 +163,18 @@
 
 .appfrom a {
   color: gray;
+}
+
+.example {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 600px;
+  padding: 0 5rem 5rem 5rem;
+}
+
+.example img {
+  object-fit: contain;
+  height: 100%;
 }
 
 @media screen and (max-width: 1300px) {
@@ -201,6 +227,10 @@
     flex-direction: column;
   }
 
+  .col2 img {
+    width: 100%;
+  }
+
   .box {
     padding: 24px;
     align-items: start;
@@ -218,6 +248,21 @@
     overflow: unset;
     margin-top: unset;
     margin-bottom: unset;
+    width: 100%;
+  }
+
+  .centersub {
+    flex-direction: column;
+  }
+
+  .example {
+    display: flex;
+    height: fit-content;
+    padding: 1rem;
+  }
+
+  .example img {
+    object-fit: contain;
     width: 100%;
   }
 }

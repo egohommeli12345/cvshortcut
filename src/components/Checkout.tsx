@@ -199,19 +199,19 @@ const Checkout = ({clientSecret, initPayment}: {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement key={clientSecret}/>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <PaymentElement key={clientSecret} options={{layout: "tabs"}}/>
       <div className={styles.paydiv}>
         <div className={styles.email}>
-          <label htmlFor="email">Email address you want to receive the PDF
+          <label htmlFor="emailto">Email address you want to receive the PDF
             with:</label>
           <input type="text" className={styles.emailinput}
                  value={email}
-                 id={"email"}
+                 id={"emailto"}
                  onChange={(e) => setEmail(e.target.value)}
                  placeholder={"Your email address here"}/>
         </div>
-        <strong>Grand total: 2.29 €</strong>
+        <strong className={styles.price}>Grand total: 2.29 €</strong>
         <button ref={payref} className={styles.pay}
                 onClick={handlePayAnimation}>{payBtnText}
         </button>
