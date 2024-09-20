@@ -177,7 +177,17 @@
   height: 100%;
 }
 
+@media screen and (max-width: 1400px) {
+  .hero {
+    gap: 32px;
+  }
+}
+
 @media screen and (max-width: 1300px) {
+  .hero {
+    padding: 5rem 3rem 0 3rem;
+  }
+
   .col2 {
     flex-direction: column;
   }

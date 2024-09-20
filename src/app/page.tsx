@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <p className={styles.appversion}>App version: v.0.1</p>
+      <p className={styles.appversion}>App version: v.0.2</p>
       <div className={styles.hero}>
         <div className={styles.col1}>
           <h1 className={styles.heading}>Create a professional <span

@@ -39,7 +39,7 @@
   border: none;
   background-color: #dddddd;
   color: black;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .addbtn {
@@ -80,7 +80,7 @@
   border-radius: 0.2rem;
   border: none;
   background-color: #ffb5b5;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: black;
 }
 
