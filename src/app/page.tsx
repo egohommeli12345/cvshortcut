@@ -60,10 +60,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/*<div className={styles.example}>
-        <img src="resumeExample.png" alt="Example image of the resume"/>
-      </div>*/}
-
       <div className={styles.center}>
         <ResumeProvider>
           <div className={styles.centersub}>

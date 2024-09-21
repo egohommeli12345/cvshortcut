@@ -49,7 +49,7 @@ export interface CustomEntryInterface {
 interface ResumeContextType {
   resumeData: ResumeDataInterface;
   setResumeData: React.Dispatch<React.SetStateAction<ResumeDataInterface>>;
-  updateField: <K extends keyof ResumeDataInterface>(key: K, value: ResumeDataInterface[K]) => void;
+  updateField: <K extends keyof ResumeDataInterface>(key: K, value: ResumeDataInterface[K], from?: number, to?: number) => void;
   resetResumeData: () => void;
   saveResumeData: () => void;
   loadResumeData: (data: FileList) => void;
@@ -78,11 +78,27 @@ export const ResumeProvider = ({children}: ResumeProviderProps) => {
     title: ""
   });
 
-  const updateField = <K extends keyof ResumeDataInterface>(key: K, value: ResumeDataInterface[K]) => {
-    setResumeData((prevData) => ({
-      ...prevData,
-      [key]: value,
-    }));
+  const updateField = <K extends keyof ResumeDataInterface>(key: K, value: ResumeDataInterface[K], from?: number, to?: number) => {
+    if (Array.isArray(value) && from !== undefined && to !== undefined) {
+      // Take snapshot of the object being replaced
+      const tempObject = value[to];
+
+      // Replace the object
+      value[to] = value[from];
+
+      // Replace the "to" index object with "from" index object
+      value[from] = tempObject;
+
+      setResumeData((prevData) => ({
+        ...prevData,
+        [key]: value,
+      }));
+    } else {
+      setResumeData((prevData) => ({
+        ...prevData,
+        [key]: value,
+      }));
+    }
   };
 
   const resetResumeData = () => {
@@ -117,13 +133,15 @@ export const ResumeProvider = ({children}: ResumeProviderProps) => {
     fr.onloadend = (e) => {
       if (e.target) {
         if (e.target.result && typeof e.target.result === "string") {
-          console.log(decodeFromBase64(e.target.result));
-          setResumeData(JSON.parse(decodeFromBase64(e.target.result)));
+          const loadedData: string = decodeFromBase64(e.target.result);
+          setResumeData(JSON.parse(loadedData));
+          localStorage.setItem("resumeData", loadedData);
         }
       }
     };
     fr.readAsText(data[0]);
   };
+
 
   return (
     <ResumeContext.Provider
@@ -133,7 +151,7 @@ export const ResumeProvider = ({children}: ResumeProviderProps) => {
         updateField,
         resetResumeData,
         saveResumeData,
-        loadResumeData
+        loadResumeData,
       }}>
       {children}
     </ResumeContext.Provider>

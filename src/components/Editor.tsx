@@ -4,22 +4,16 @@ import styles from "./Editor.module.css";
 import {
   EducationInterface,
   ExperienceInterface,
-  ResumeDataInterface, SkillInterface,
+  ResumeDataInterface,
+  SkillInterface,
   useResumeContext
 } from "@/components/ResumeContext";
 import {
   ChangeEvent,
   useRef,
-  useState,
-  useCallback,
-  useLayoutEffect, useEffect
+  useState
 } from "react";
-import {loadStripe} from "@stripe/stripe-js";
-import Checkout from "@/components/Checkout";
-import {Elements, useElements, useStripe} from "@stripe/react-stripe-js";
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC!);
-
+import Image from "next/image";
 
 const Editor = () => {
   const {
@@ -28,7 +22,7 @@ const Editor = () => {
     updateField,
     resetResumeData,
     saveResumeData,
-    loadResumeData
+    loadResumeData,
   } = useResumeContext();
   const [tempexperience, setTempexperience] = useState<ExperienceInterface>({
     from: "",
@@ -125,6 +119,12 @@ const Editor = () => {
     }
   };
 
+  const editEducationListItem = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+    let newValue = tempeducation;
+    newValue.listitem[index] = e.target.value;
+    setTempeducation(newValue);
+  };
+
   const addSkill = () => {
     if (resumeData.skills) {
       setResumeData((prevState) => ({
@@ -208,6 +208,28 @@ const Editor = () => {
     });
   };
 
+  const removeEduItem = (index: number) => {
+    setTempeducation(prev => {
+      const updatedList = [...prev.listitem];
+      updatedList.splice(index, 1);
+      return {
+        ...prev,
+        listitem: updatedList
+      };
+    });
+  };
+
+  const removeExpItem = (index: number) => {
+    setTempexperience(prev => {
+      const updatedList = [...prev.listitem];
+      updatedList.splice(index, 1);
+      return {
+        ...prev,
+        listitem: updatedList
+      };
+    });
+  };
+
   return (
     <>
       <div className={styles.editor}>
@@ -284,17 +306,45 @@ const Editor = () => {
               Add
             </button>
           </div>
-          {
-            (tempexperience.listitem) &&
-            <div className={styles.addingtolist}>
-              {tempexperience.listitem.map((li, index) =>
-                <p key={index}>{li}</p>
-              )}
+          {tempexperience.listitem.map((li, index) =>
+            <div className={styles.inputContainerWithBtn} key={index}>
+              <input className={styles.input} type="text" value={li}
+                     disabled={true}/>
+              <button onClick={() => {
+                bpExpref.current!.value = li;
+                removeExpItem(index);
+              }}
+                      className={styles.btn}>Edit
+              </button>
             </div>
-          }
+          )}
           <button className={styles.addbtn} onClick={addExperience}>Add
             experience
           </button>
+
+          {resumeData.experience.map((exp, index) => (
+            <div className={styles.added} key={index}>
+              {index + 1}. {exp.workplacename}
+              <div className={styles.orderbtn}
+                   onClick={() => {
+                     setTempexperience(exp);
+                     const updated = [...resumeData.experience];
+                     updated.splice(index, 1);
+                     setResumeData({
+                       ...resumeData,
+                       experience: updated
+                     });
+                   }}><Image src={"edit.svg"} alt={"Edit"} width={16}
+                             height={16}/>
+              </div>
+              {index > 0 &&
+                <div className={styles.orderbtn}
+                     onClick={() => updateField("experience", resumeData.experience, (index - 1), index)}>
+                  <Image src={"up-circle.svg"} alt={"Up"} width={16}
+                         height={16}/>
+                </div>}
+            </div>
+          ))}
 
         </div>
 
@@ -325,16 +375,46 @@ const Editor = () => {
             <button onClick={addEducationListItem} className={styles.btn}>Add
             </button>
           </div>
-          {
-            (tempeducation.listitem) &&
-            <div className={styles.addingtolist}>
-              {tempeducation.listitem.map((li, index) =>
-                <p key={index}>{li}</p>
-              )}
+
+          {tempeducation.listitem.map((li, index) =>
+            <div className={styles.inputContainerWithBtn} key={index}>
+              <input className={styles.input} type="text" value={li}
+                     disabled={true}/>
+              <button onClick={() => {
+                bpEduref.current!.value = li;
+                removeEduItem(index);
+              }}
+                      className={styles.btn}>Edit
+              </button>
             </div>
-          }
+          )}
+
           <button className={styles.addbtn} onClick={addEducation}>Add education
           </button>
+
+          {resumeData.education.map((edu, index) => (
+            <div className={styles.added} key={index}>
+              {index + 1}. {edu.schoolname}
+              <div className={styles.orderbtn}
+                   onClick={() => {
+                     setTempeducation(edu);
+                     const updated = [...resumeData.education];
+                     updated.splice(index, 1);
+                     setResumeData({
+                       ...resumeData,
+                       education: updated
+                     });
+                   }}><Image src={"edit.svg"} alt={"Edit"} width={16}
+                             height={16}/>
+              </div>
+              {index > 0 &&
+                <div className={styles.orderbtn}
+                     onClick={() => updateField("education", resumeData.education, (index - 1), index)}>
+                  <Image src={"up-circle.svg"} alt={"Up"} width={16}
+                         height={16}/>
+                </div>}
+            </div>
+          ))}
 
         </div>
 
@@ -354,22 +434,39 @@ const Editor = () => {
 
           <button className={styles.addbtn} onClick={addSkill}>Add skill
           </button>
+
+          {resumeData.skills.map((skill, index) => (
+            <div className={styles.added} key={index}>
+              {index + 1}. {skill.title}
+              <div className={styles.orderbtn}
+                   onClick={() => {
+                     setTempskill(skill);
+                     const updated = [...resumeData.skills];
+                     updated.splice(index, 1);
+                     setResumeData({
+                       ...resumeData,
+                       skills: updated
+                     });
+                   }}><Image src={"edit.svg"} alt={"Edit"} width={16}
+                             height={16}/>
+              </div>
+              {index > 0 &&
+                <div className={styles.orderbtn}
+                     onClick={() => updateField("skills", resumeData.skills, (index - 1), index)}>
+                  <Image src={"up-circle.svg"} alt={"Up"} width={16}
+                         height={16}/>
+                </div>}
+            </div>
+          ))}
+
         </div>
 
         <div className={styles.inputContainer}>
-
-          {/*{stripePromise && clientSecret &&
-            <Elements
-              stripe={stripePromise}
-              options={options}
-            >
-              <Checkout clientSecret={clientSecret} initPayment={initPayment}/>
-            </Elements>}*/}
           <div className={styles.twocolgrid}>
             <button className={styles.redbtn}
                     onClick={resetResumeData}>Empty template
             </button>
-            <button className={styles.btn} onClick={saveResumeData}>Save
+            <button className={styles.savebtn} onClick={saveResumeData}>Save
               editor data locally
             </button>
           </div>
