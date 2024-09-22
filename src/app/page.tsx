@@ -4,7 +4,6 @@ import styles from "./page.module.css";
 import Editor from "@/components/Editor";
 import Preview from "@/components/Preview";
 import {ResumeProvider} from "@/components/ResumeContext";
-import Image from "next/image";
 import PaymentElement from "@/components/PaymentElement";
 
 
@@ -19,44 +18,52 @@ export default function Home() {
           <h1 className={styles.heading}>Create a professional <span
             className={styles.standout}>Resume</span> in minutes
           </h1>
-          <p>Designed for simplicity and speed, our tool guides you
+          {/*<p>Designed for simplicity and speed, our tool guides you
             through each step, ensuring you craft a standout resume with minimal
             effort. Perfect for job seekers looking to make a strong impression
-            quickly.</p>
+            quickly.</p>*/}
+          <p>Our resume builder app simplifies the process of creating a
+            standout resume. With a professional, pre-designed template, the app
+            automatically formats your text into the correct sections, ensuring
+            a clean and polished resume. Build a customized resume that
+            highlights your skills and experience effortlessly, helping you
+            present yourself professionally to employers.</p>
         </div>
         <div className={styles.col2}>
           <img src="resumeExample.png" alt="Example image of the resume"/>
-          {/*<div className={styles.box}>
-            <h3>Our CV builder</h3>
-            <div className={styles.list}>
-              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Fast
-              </p>
-              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Easy to use</p>
-              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Professional layout</p>
-              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>You focus only on the content</p>
-              <p><Image src="check-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Mobile friendly*</p>
-            </div>
+        </div>
+      </div>
+
+      <div className={styles.row}>
+        <div className={styles.text}>
+          <div className={styles.textInside}>
+            <h1>How to make a good resume?</h1>
           </div>
-          <div className={styles.box}>
-            <h3>Making CV manually</h3>
-            <div className={styles.list}>
-              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Slow</p>
-              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Difficult, too many options</p>
-              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Manual layout</p>
-              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Can&apos;t focus only on the content</p>
-              <p><Image src="xmark-svgrepo-com.svg" alt="check" width={32}
-                        height={32}/>Nearly impossible to do on mobile</p>
-            </div>
-          </div>*/}
+          <p>A good resume is concise, tailored, and professional. Its purpose
+            is to quickly communicate your skills, experience, and
+            qualifications to potential employers.</p>
+          <h3>Tailor Your Resume for Each Job</h3>
+          <p>Customizing your resume for each job application is vital. Use
+            specific keywords from the job description and highlight relevant
+            experience that matches the role. Show clear career progression by
+            emphasizing achievements and results. This helps recruiters quickly
+            see how your skills and experience align with their needs.</p>
+          <h3>Design and Layout</h3>
+          <p>For resume design, stick to a clean, simple and professional
+            layout.
+            Avoid clutter and ensure consistent
+            spacing and formatting. A well-organized resume is easier for
+            recruiters to read and makes a strong impression.</p>
+          <h3>Proofread and Polish</h3>
+          <p>Before submitting your resume, thoroughly proofread to eliminate
+            any typos or grammatical errors. Use consistent verb tenses—past
+            tense for previous jobs and present tense for your current role.
+            This attention to detail shows professionalism.</p>
+        </div>
+        <div className={styles.text}>
+          <div className={styles.textInside}>
+            <h2>Start Filling In Your Information Below!</h2>
+          </div>
         </div>
       </div>
 

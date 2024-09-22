@@ -17,12 +17,10 @@
 .hero {
   height: 750px;
   width: 100%;
-  /*background-color: white;*/
   padding: 5rem 10rem 0 10rem;
   box-sizing: border-box;
   max-width: 1920px;
   display: flex;
-  /*gap: 48px;*/
 }
 
 .col1 {
@@ -33,7 +31,6 @@
   align-items: start;
   justify-content: center;
   gap: 64px;
-  /*padding: 0 0 0 7rem;*/
 }
 
 .col1 h1 {
@@ -77,14 +74,12 @@
   width: 100%;
   height: 75%;
   background: #fafafa;
-  /*background: #424242;*/
   border-radius: 4px;
   box-sizing: border-box;
   padding: 32px 8px 32px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /*color: white;*/
 }
 
 .list {
@@ -177,6 +172,47 @@
   height: 100%;
 }
 
+.row {
+  width: 100%;
+  height: fit-content;
+  background: linear-gradient(0deg, rgba(241, 241, 241, 1) 0%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 75%, rgba(241, 241, 241, 1) 100%);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 5rem 5rem 5rem 5rem;
+  gap: 64px;
+}
+
+.text p {
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+}
+
+.textInside h1 {
+  align-self: center;
+  letter-spacing: -1px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 32px;
+  width: 100%;
+}
+
+.textInside {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 32px;
+  width: 100%;
+}
+
+.textInside h2 {
+  align-self: center;
+}
+
 @media screen and (max-width: 1400px) {
   .hero {
     gap: 32px;
@@ -197,10 +233,11 @@
   .main {
     height: auto;
     overflow: unset;
+    gap: 3rem;
   }
 
   .hero {
-    padding: 4.5rem 1rem 4.5rem 1rem;
+    padding: 4.5rem 1rem 0 1rem;
     height: fit-content;
     flex-direction: column;
     gap: 32px;
@@ -224,7 +261,7 @@
 
   .col1 p {
     font-size: 1rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
   }
 
   .col1, .col2 {
@@ -274,5 +311,17 @@
   .example img {
     object-fit: contain;
     width: 100%;
+  }
+
+  .row {
+    padding: 1rem;
+  }
+
+  .textInside h1 {
+    font-size: 2rem;
+  }
+
+  .text p {
+    font-size: 1rem;
   }
 }
