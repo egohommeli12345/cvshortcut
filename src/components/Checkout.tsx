@@ -6,13 +6,11 @@ import {PaymentIntent} from "@stripe/stripe-js";
 import {useResumeContext} from "@/components/ResumeContext";
 import styles from "./Checkout.module.css";
 
-const Checkout = ({clientSecret, initPayment}: {
+const Checkout = ({clientSecret}: {
   clientSecret: string,
-  initPayment: () => {}
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [cs, setCs] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
   const {resumeData, setResumeData} = useResumeContext();
   const [payBtnText, setPayBtnText] = useState<string>("Pay and download");
@@ -205,13 +203,15 @@ const Checkout = ({clientSecret, initPayment}: {
         <div className={styles.email}>
           <label htmlFor="emailto">Email address you want to receive the PDF
             with:</label>
-          <input type="text" className={styles.emailinput}
+          <input type="email" className={styles.emailinput}
                  value={email}
                  id={"emailto"}
                  onChange={(e) => setEmail(e.target.value)}
                  placeholder={"Your email address here"}/>
         </div>
         <strong className={styles.price}>Grand total: 2.29 €</strong>
+        <p>- Includes resume in PDF via email + direct download</p>
+        {/*<p>- 2 free resume coupons (email)</p>*/}
         <button ref={payref} className={styles.pay}
                 onClick={handlePayAnimation}>{payBtnText}
         </button>

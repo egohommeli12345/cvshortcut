@@ -13,7 +13,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <p className={styles.appversion}>App version: v.0.2</p>
+
       <div className={styles.hero}>
+
         <div className={styles.col1}>
           <h1 className={styles.heading}>Create a professional <span
             className={styles.standout}>Resume</span> in minutes
@@ -25,16 +27,30 @@ export default function Home() {
           <p>Our resume builder app simplifies the process of creating a
             standout resume. With a professional, pre-designed template, the app
             automatically formats your text into the correct sections, ensuring
-            a clean and polished resume. Build a customized resume that
-            highlights your skills and experience effortlessly, helping you
-            present yourself professionally to employers.</p>
+            a clean and polished resume.</p>
         </div>
+
         <div className={styles.col2}>
           <img src="resumeExample.png" alt="Example image of the resume"/>
         </div>
+
       </div>
 
-      <div className={styles.row}>
+      {/*<div className={styles.row}>
+
+        <div className={styles.text}>
+          <div className={styles.textInside}>
+            <h1>With CVShortcut resume builder you get:</h1>
+          </div>
+          <div className={styles.boxcontainer}>
+            <div className={styles.box}>
+              <p>Professional layout</p>
+              <p>PDF -file (download + email)</p>
+              <p>Fast-to-use and mobile friendly editor</p>
+            </div>
+          </div>
+        </div>
+
         <div className={styles.text}>
           <div className={styles.textInside}>
             <h1>How to make a good resume?</h1>
@@ -65,7 +81,7 @@ export default function Home() {
             <h2>Start Filling In Your Information Below!</h2>
           </div>
         </div>
-      </div>
+      </div>*/}
 
       <div className={styles.center}>
         <ResumeProvider>

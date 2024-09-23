@@ -30,15 +30,11 @@ const PaymentElement = () => {
   }, []);
 
   const initPayment = async () => {
-    await fetchClientSecret();
+    if (clientSecret.length === 0) await fetchClientSecret();
   };
 
   const options = {
     clientSecret: clientSecret,
-  };
-
-  const appearance = {
-    layout: "accordion"
   };
 
   useEffect(() => {
@@ -46,19 +42,23 @@ const PaymentElement = () => {
       "payment_intent_client_secret"
     );
     if (clientSecret) setClientSecret(clientSecret);
-    if (!clientSecret) initPayment();
     if (localStorage.getItem("resumeData")) {
       setResumeData(JSON.parse(localStorage.getItem("resumeData") || "{}"));
     }
   }, []);
   return (
     <>
+      {!clientSecret &&
+        <button className={styles.greenbtn} onClick={initPayment}>
+          Download PDF for 2.29 €
+        </button>}
+
       {stripePromise && clientSecret &&
         <Elements
           stripe={stripePromise}
           options={options}
         >
-          <Checkout clientSecret={clientSecret} initPayment={initPayment}/>
+          <Checkout clientSecret={clientSecret}/>
         </Elements>}
     </>
   );
