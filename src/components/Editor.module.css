@@ -5,6 +5,7 @@
   font-size: 1rem;
   align-self: start;
   gap: 4rem;
+  width: 100%;
 }
 
 .inputContainer {
