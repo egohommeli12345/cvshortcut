@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Preview.module.css";
-import {useLayoutEffect, useRef} from "react";
+import {useEffect, useLayoutEffect, useRef} from "react";
 import {useResumeContext} from "@/components/ResumeContext";
 
 const Preview = () => {
@@ -12,30 +12,35 @@ const Preview = () => {
   const pagebreakref = useRef<HTMLDivElement>(null);
   // const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
 
-  useLayoutEffect(() => {
+  const scale = () => {
     if (ref && widthref && previewref) {
       let maxWidth = previewref.current!.offsetWidth;
-      if (maxWidth >= widthref.current!.offsetWidth) maxWidth = widthref.current!.offsetWidth;
+      console.log(previewref.current!.offsetWidth);
+      // if (maxWidth >= widthref.current!.offsetWidth) maxWidth = widthref.current!.offsetWidth;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
+      console.log(scalingFactor);
 
       if (window.innerWidth > 1000) {
-        if (scalingFactor > 1) {
-          scalingFactor = 1;
-        }
         ref.current!.style.scale = scalingFactor.toString();
-        previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
+        // previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
       } else if (window.innerWidth < 1000) {
-        if (scalingFactor > 1) {
-          scalingFactor = 1;
-        }
-        scalingFactor = scalingFactor * 0.95;
         ref.current!.style.scale = scalingFactor.toString();
-        previewref.current!.style.width = `${(window.innerWidth).toString()}px`;
+        // previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
         previewref.current!.style.marginBottom = `${((ref.current!.offsetHeight * scalingFactor * 0.05) / 2).toString()}px`;
       }
 
+      ref.current!.style.display = "block";
+
       previewref.current!.style.height = `${(ref.current!.offsetHeight * scalingFactor).toString()}px`;
     }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      scale();
+    }, 0);
+    window.addEventListener("resize", scale);
+    return () => window.removeEventListener("resize", scale);
   }, []);
 
   return (

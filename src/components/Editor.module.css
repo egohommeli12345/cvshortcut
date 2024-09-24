@@ -1,27 +1,23 @@
 .editor {
   box-sizing: border-box;
-  padding: 8px;
   display: flex;
-  width: 35%;
   flex-direction: column;
   font-size: 1rem;
   align-self: start;
-  gap: 64px;
-  /*overflow-y: auto;*/
-  /*max-height: 95vh;*/
+  gap: 4rem;
 }
 
 .inputContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
   width: 100%;
 }
 
 .inputContainerWithBtn {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 0.5rem;
   width: 100%;
   flex-wrap: nowrap;
   text-wrap: nowrap;
@@ -52,6 +48,11 @@
   font-size: 0.8rem;
 }
 
+.savebtn:hover {
+  cursor: pointer;
+  background: #c8c8c8;
+}
+
 .addbtn {
   width: 100%;
   height: 2rem;
@@ -60,7 +61,7 @@
   background-color: #2b2b2b;
   color: white;
   font-size: 1rem;
-  margin-top: 32px;
+  /*margin-top: 32px;*/
 }
 
 .addbtn:hover {
@@ -102,7 +103,7 @@
   background-image: linear-gradient(107.7deg, rgba(235, 230, 44, 0.55) 8.4%, rgba(252, 152, 15, 1) 90.3%);
   font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 24px;
+  /*margin-top: 24px;*/
   color: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -142,15 +143,7 @@
 .twocolgrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.addingtolist {
-  display: flex;
-  flex-direction: column;
-  font-size: x-small;
-  gap: 4px;
-  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .added {
@@ -160,13 +153,10 @@
 }
 
 .orderbtn {
-  /*background-color: #2b2b2b;*/
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0.2rem;
-  font-size: 0.8rem;
 }
 
 .orderbtn:hover {
@@ -179,8 +169,6 @@
     height: fit-content;
     overflow-y: unset;
     max-height: unset;
-    padding-left: 16px;
-    padding-right: 16px;
   }
 
   .inputContainer {

@@ -4,7 +4,8 @@
   justify-content: center;
   position: sticky;
   top: 10mm;
-  width: 65%;
+  width: 100%;
+  /*max-width: 210mm;*/
 }
 
 .reference {
@@ -14,6 +15,7 @@
 }
 
 .content {
+  display: none;
   width: 210mm;
   min-height: 297mm;
   transform-origin: top center;

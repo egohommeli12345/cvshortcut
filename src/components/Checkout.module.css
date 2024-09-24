@@ -1,11 +1,10 @@
 .paydiv {
-  margin-top: 2rem;
+  /*margin-top: 2rem;*/
 }
 
 .form {
-  width: 70%;
+  /*width: 70%;*/
   box-sizing: border-box;
-  align-self: center;
 }
 
 .paygray {
@@ -61,8 +60,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .emailinput {
@@ -121,7 +120,7 @@
 @media screen and (max-width: 1000px) {
   .form {
     width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
+    /*padding-left: 16px;*/
+    /*padding-right: 16px;*/
   }
 }

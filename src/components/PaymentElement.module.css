@@ -1,14 +1,10 @@
 .greenbtn {
-  align-self: center;
-  width: 50%;
   height: 4rem;
   border-radius: 0.2rem;
   border: none;
   background-image: linear-gradient(107.7deg, rgba(235, 230, 44, 0.55) 8.4%, rgba(252, 152, 15, 1) 90.3%);
   font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 8px;
-  margin-bottom: 16px;
   color: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
@@ -21,6 +17,6 @@
 
 @media screen and (max-width: 1000px) {
   .greenbtn {
-    width: 95%;
+    /*width: 95%;*/
   }
 }

@@ -16,6 +16,10 @@ export default function Home() {
 
       <div className={styles.hero}>
 
+        <div className={styles.col2}>
+          <img src="resumeExample.png" alt="Example image of the resume"/>
+        </div>
+
         <div className={styles.col1}>
           <h1 className={styles.heading}>Create a professional <span
             className={styles.standout}>Resume</span> in minutes
@@ -30,66 +34,15 @@ export default function Home() {
             a clean and polished resume.</p>
         </div>
 
-        <div className={styles.col2}>
-          <img src="resumeExample.png" alt="Example image of the resume"/>
-        </div>
-
       </div>
-
-      {/*<div className={styles.row}>
-
-        <div className={styles.text}>
-          <div className={styles.textInside}>
-            <h1>With CVShortcut resume builder you get:</h1>
-          </div>
-          <div className={styles.boxcontainer}>
-            <div className={styles.box}>
-              <p>Professional layout</p>
-              <p>PDF -file (download + email)</p>
-              <p>Fast-to-use and mobile friendly editor</p>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.text}>
-          <div className={styles.textInside}>
-            <h1>How to make a good resume?</h1>
-          </div>
-          <p>A good resume is concise, tailored, and professional. Its purpose
-            is to quickly communicate your skills, experience, and
-            qualifications to potential employers.</p>
-          <h3>Tailor Your Resume for Each Job</h3>
-          <p>Customizing your resume for each job application is vital. Use
-            specific keywords from the job description and highlight relevant
-            experience that matches the role. Show clear career progression by
-            emphasizing achievements and results. This helps recruiters quickly
-            see how your skills and experience align with their needs.</p>
-          <h3>Design and Layout</h3>
-          <p>For resume design, stick to a clean, simple and professional
-            layout.
-            Avoid clutter and ensure consistent
-            spacing and formatting. A well-organized resume is easier for
-            recruiters to read and makes a strong impression.</p>
-          <h3>Proofread and Polish</h3>
-          <p>Before submitting your resume, thoroughly proofread to eliminate
-            any typos or grammatical errors. Use consistent verb tenses—past
-            tense for previous jobs and present tense for your current role.
-            This attention to detail shows professionalism.</p>
-        </div>
-        <div className={styles.text}>
-          <div className={styles.textInside}>
-            <h2>Start Filling In Your Information Below!</h2>
-          </div>
-        </div>
-      </div>*/}
 
       <div className={styles.center}>
         <ResumeProvider>
           <div className={styles.centersub}>
             <Editor/>
-            <Preview/>
+            <PaymentElement/>
           </div>
-          <PaymentElement/>
+          <Preview/>
         </ResumeProvider>
       </div>
 
