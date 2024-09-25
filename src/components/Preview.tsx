@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./Preview.module.css";
-import {useEffect, useLayoutEffect, useRef} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useResumeContext} from "@/components/ResumeContext";
 
 const Preview = () => {
@@ -32,14 +32,36 @@ const Preview = () => {
       ref.current!.style.display = "block";
 
       previewref.current!.style.height = `${(ref.current!.offsetHeight * scalingFactor).toString()}px`;
+
     }
   };
 
   useEffect(() => {
+    const element = ref.current;
+
     setTimeout(() => {
       scale();
     }, 0);
     window.addEventListener("resize", scale);
+
+    if (element) {
+      // Create a ResizeObserver to listen to height changes
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          if (entry.contentRect) {
+            scale();
+          }
+        }
+      });
+
+      resizeObserver.observe(element); // Start observing the element
+
+      return () => {
+        window.removeEventListener("resize", scale);
+        resizeObserver.unobserve(element);
+      };
+    }
+
     return () => window.removeEventListener("resize", scale);
   }, []);
 
@@ -150,6 +172,23 @@ const Preview = () => {
                   </div>
                 </div>
               </div>}
+
+            {resumeData.customsection?.length > 0 &&
+              resumeData.customsection.map((cs, index) =>
+                <div className={styles.section} key={index}>
+                  <div className={styles.skills}>
+                    <h3>{cs.name}</h3>
+                    <div className={styles.entries}>
+
+                      {cs.listitem.map((li, index) =>
+                        <div className={styles.entry} key={index}>
+                          <div></div>
+                          <p>{li}</p>
+                        </div>)}
+
+                    </div>
+                  </div>
+                </div>)}
 
           </div>
         </div>

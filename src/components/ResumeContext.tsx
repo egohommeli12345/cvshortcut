@@ -17,7 +17,7 @@ export interface ResumeDataInterface {
   experience: ExperienceInterface[],
   education: EducationInterface[],
   skills: SkillInterface[],
-  customentry: CustomEntryInterface[]
+  customsection: CustomSectionInterface[]
 }
 
 export interface ExperienceInterface {
@@ -40,9 +40,8 @@ export interface SkillInterface {
   text: string
 }
 
-export interface CustomEntryInterface {
-  heading: string,
-  title: string,
+export interface CustomSectionInterface {
+  name: string,
   listitem: string[]
 }
 
@@ -66,7 +65,7 @@ interface ResumeProviderProps {
 export const ResumeProvider = ({children}: ResumeProviderProps) => {
   const [resumeData, setResumeData] = useState<ResumeDataInterface>({
     address: "",
-    customentry: [],
+    customsection: [],
     education: [],
     email: "",
     experience: [],
@@ -104,7 +103,7 @@ export const ResumeProvider = ({children}: ResumeProviderProps) => {
   const resetResumeData = () => {
     setResumeData({
       address: "",
-      customentry: [],
+      customsection: [],
       education: [],
       email: "",
       experience: [],

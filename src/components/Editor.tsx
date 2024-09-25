@@ -2,6 +2,7 @@
 
 import styles from "./Editor.module.css";
 import {
+  CustomSectionInterface,
   EducationInterface,
   ExperienceInterface,
   ResumeDataInterface,
@@ -41,43 +42,16 @@ const Editor = () => {
     text: "",
     title: ""
   });
+  const [tempcustom, setTempcustom] = useState<CustomSectionInterface>({
+    name: "",
+    listitem: []
+  });
   const [bulletpointinput, setBulletpointinput] = useState<string>("");
   const bpExpref = useRef<HTMLInputElement>(null);
   const bpEduref = useRef<HTMLInputElement>(null);
-  const bpSkillref = useRef<HTMLInputElement>(null);
+  const customTextref = useRef<HTMLInputElement>(null);
 
   const [txtfile, setTxtfile] = useState<FileList | null>(null);
-
-  /*// For Stripe
-  const [clientSecret, setClientSecret] = useState<string>("");
-
-  const fetchClientSecret = useCallback(async () => {
-    // Create a Checkout Session
-    const res = await fetch("/api/payment_intents", {
-      method: "POST",
-    });
-    const data = await res.json();
-    setClientSecret(data.client_secret);
-  }, []);
-
-  const initPayment = async () => {
-    await fetchClientSecret();
-  };
-
-  const options = {
-    clientSecret: clientSecret,
-  };
-
-  useEffect(() => {
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
-    if (clientSecret) setClientSecret(clientSecret);
-    if (!clientSecret) initPayment();
-    if (localStorage.getItem("resumeData")) {
-      setResumeData(JSON.parse(localStorage.getItem("resumeData") || "{}"));
-    }
-  }, []);*/
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -119,10 +93,21 @@ const Editor = () => {
     }
   };
 
-  const editEducationListItem = (index: number, e: ChangeEvent<HTMLInputElement>) => {
-    let newValue = tempeducation;
-    newValue.listitem[index] = e.target.value;
-    setTempeducation(newValue);
+  const addCustomListItem = () => {
+    if (customTextref) {
+      if (tempcustom.listitem) {
+        setTempcustom({
+          ...tempcustom,
+          listitem: [...tempcustom.listitem, customTextref.current!.value]
+        });
+      } else {
+        setTempcustom({
+          ...tempcustom,
+          listitem: [customTextref.current!.value]
+        });
+      }
+      customTextref.current!.value = "";
+    }
   };
 
   const addSkill = () => {
@@ -184,6 +169,24 @@ const Editor = () => {
     });
   };
 
+  const addCustomSection = () => {
+    if (resumeData.customsection) {
+      setResumeData((prevState) => ({
+        ...prevState,
+        customsection: [...prevState.customsection, tempcustom]
+      }));
+    } else {
+      setResumeData((prevState) => ({
+        ...prevState,
+        customsection: [tempcustom]
+      }));
+    }
+    setTempcustom({
+      name: "",
+      listitem: []
+    });
+  };
+
   const handleTempExperience = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
     setTempexperience({
@@ -208,6 +211,14 @@ const Editor = () => {
     });
   };
 
+  const handleTempCustom = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setTempcustom({
+      ...tempcustom,
+      [name]: value,
+    });
+  };
+
   const removeEduItem = (index: number) => {
     setTempeducation(prev => {
       const updatedList = [...prev.listitem];
@@ -221,6 +232,17 @@ const Editor = () => {
 
   const removeExpItem = (index: number) => {
     setTempexperience(prev => {
+      const updatedList = [...prev.listitem];
+      updatedList.splice(index, 1);
+      return {
+        ...prev,
+        listitem: updatedList
+      };
+    });
+  };
+
+  const removeCustomItem = (index: number) => {
+    setTempcustom(prev => {
       const updatedList = [...prev.listitem];
       updatedList.splice(index, 1);
       return {
@@ -458,6 +480,68 @@ const Editor = () => {
                 </div>}
             </div>
           ))}
+
+        </div>
+
+        <div className={styles.inputContainer}>
+          <h4>Custom sections</h4>
+
+          <label htmlFor="sectionname">Section name</label>
+          <input type="text" className={styles.input}
+                 name={"name"}
+                 value={tempcustom.name}
+                 onChange={handleTempCustom}/>
+
+          <label htmlFor={"customlistitem"}>Text</label>
+          <div className={styles.inputContainerWithBtn}>
+            <input className={styles.input} id={"customlistitem"}
+                   type="text"
+                   ref={customTextref}/>
+            <button className={styles.btn} onClick={addCustomListItem}>Add
+            </button>
+          </div>
+
+          {tempcustom.listitem.map((li, index) =>
+            <div className={styles.inputContainerWithBtn} key={index}>
+              <input className={styles.input} type="text" value={li}
+                     disabled={true}/>
+              <button onClick={() => {
+                customTextref.current!.value = li;
+                removeCustomItem(index);
+              }}
+                      className={styles.btn}>Edit
+              </button>
+            </div>
+          )}
+
+          <button className={styles.addbtn} onClick={addCustomSection}>Add
+            section
+          </button>
+
+          {resumeData.customsection &&
+            resumeData.customsection.map((cs, index) => (
+              <div className={styles.added} key={index}>
+                {index + 1}. {cs.name}
+                <div className={styles.orderbtn}
+                     onClick={() => {
+                       setTempcustom(cs);
+                       const updated = [...resumeData.customsection];
+                       updated.splice(index, 1);
+                       setResumeData({
+                         ...resumeData,
+                         customsection: updated
+                       });
+                     }}><Image src={"edit.svg"} alt={"Edit"} width={16}
+                               height={16}/>
+                </div>
+                {index > 0 &&
+                  <div className={styles.orderbtn}
+                       onClick={() => updateField("customsection", resumeData.customsection, (index - 1), index)}>
+                    <Image src={"up-circle.svg"} alt={"Up"} width={16}
+                           height={16}/>
+                  </div>}
+              </div>
+            ))}
 
         </div>
 
