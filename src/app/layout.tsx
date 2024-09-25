@@ -8,8 +8,8 @@ const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Resume builder: create your resume in minutes",
-  description: "Fastest CV builder on the internet, fill in your info and" +
-    " download PDF.",
+  description: "Fastest resume builder on the internet, fill in your info and" +
+    " download PDF. No account needed.",
 
 };
 

@@ -39,7 +39,8 @@
   font-size: 0.8rem;
 }
 
-.savebtn {
+.savebtn,
+.fileinput::file-selector-button {
   width: 100%;
   height: 2rem;
   border-radius: 0.2rem;
@@ -49,7 +50,8 @@
   font-size: 0.8rem;
 }
 
-.savebtn:hover {
+.savebtn:hover,
+.fileinput::file-selector-button:hover {
   cursor: pointer;
   background: #c8c8c8;
 }
@@ -86,16 +88,6 @@
   cursor: pointer;
 }
 
-.redbtn {
-  width: 100%;
-  height: 2rem;
-  border-radius: 0.2rem;
-  border: none;
-  background-color: #ffb5b5;
-  font-size: 0.8rem;
-  color: black;
-}
-
 .greenbtn {
   width: 100%;
   height: 4rem;
@@ -107,11 +99,6 @@
   /*margin-top: 24px;*/
   color: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.redbtn:hover {
-  background-color: #ff8686;
-  cursor: pointer;
 }
 
 .greenbtn:hover {

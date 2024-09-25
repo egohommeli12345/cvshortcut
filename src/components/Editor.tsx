@@ -463,7 +463,7 @@ const Editor = () => {
 
         <div className={styles.inputContainer}>
           <div className={styles.twocolgrid}>
-            <button className={styles.redbtn}
+            <button className={styles.savebtn}
                     onClick={resetResumeData}>Empty template
             </button>
             <button className={styles.savebtn} onClick={saveResumeData}>Save
