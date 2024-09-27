@@ -1,0 +1,43 @@
+.articlebg {
+  width: 60%;
+  max-width: 1440px;
+  box-sizing: border-box;
+  padding: 4rem 2rem 0 2rem;
+}
+
+.title {
+  margin-bottom: 4rem;
+}
+
+.pcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.paragraph {
+  font-size: 1.25rem;
+  letter-spacing: var(--p-letter-spacing);
+  line-height: 2.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .articlebg {
+    width: 100%;
+    padding: 2rem 0.5rem 0 0.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .pcontainer {
+    gap: 2rem;
+  }
+
+  .paragraph {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+}

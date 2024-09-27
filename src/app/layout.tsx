@@ -3,6 +3,8 @@ import {Inter} from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import Navigation from "@/components/Navigation";
+import styles from "@/app/page.module.css";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -21,7 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en">
     <GoogleAnalytics/>
-    <body className={inter.className}>{children}</body>
+    <body className={inter.className}>
+    <Navigation/>
+    {children}
+    <div className={styles.footer}>
+      <div className={styles.appfrom}>
+        <p><strong>CVShortcut</strong> by Samuli Pirnes</p>
+        <a href="https://samulipirnes.com/" target={"_blank"}
+           rel={"noopener"}>samulipirnes.com</a>
+      </div>
+    </div>
+    </body>
     </html>
   );
 }

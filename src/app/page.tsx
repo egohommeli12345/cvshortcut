@@ -80,13 +80,13 @@ export default function Home() {
         </ResumeProvider>
       </div>
 
-      <div className={styles.footer}>
+      {/*<div className={styles.footer}>
         <div className={styles.appfrom}>
           <p><strong>CVShortcut</strong> by Samuli Pirnes</p>
           <a href="https://samulipirnes.com/" target={"_blank"}
              rel={"noopener"}>samulipirnes.com</a>
         </div>
-      </div>
+      </div>*/}
     </main>
   );
 }
