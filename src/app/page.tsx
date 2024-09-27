@@ -6,6 +6,7 @@ import Preview from "@/components/Preview";
 import {ResumeProvider} from "@/components/ResumeContext";
 import PaymentElement from "@/components/PaymentElement";
 import {useRef} from "react";
+import Image from "next/image";
 
 
 export default function Home() {
@@ -23,7 +24,7 @@ export default function Home() {
 
       <div className={styles.hero}>
         <div className={styles.col2}>
-          <img src="resumeExample.png" alt="Example image of the resume"/>
+          <img src="/resumeExample.png" alt="Example image of the resume"/>
         </div>
 
         <div className={styles.col1}>
