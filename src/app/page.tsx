@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <p className={styles.appversion}>App version: v.0.2</p>
+      {/*<p className={styles.appversion}>App version: v.0.2</p>*/}
 
       <div className={styles.hero}>
         <div className={styles.col2}>

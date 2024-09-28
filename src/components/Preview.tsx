@@ -1,8 +1,38 @@
 "use client";
 
 import styles from "./Preview.module.css";
-import {useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useResumeContext} from "@/components/ResumeContext";
+
+interface PreviewLanguagesInterface {
+  [key: string]: {
+    address: string,
+    phone: string,
+    email: string,
+    experience: string,
+    education: string,
+    skills: string
+  };
+}
+
+const previewLanguages: PreviewLanguagesInterface = {
+  en: {
+    address: "Address",
+    phone: "Phone",
+    email: "E-mail",
+    experience: "Experience",
+    education: "Education",
+    skills: "Skills"
+  },
+  fi: {
+    address: "Osoite",
+    phone: "Puhelin",
+    email: "Sähköposti",
+    experience: "Kokemus",
+    education: "Koulutus",
+    skills: "Taidot"
+  }
+};
 
 const Preview = () => {
   const {resumeData} = useResumeContext();
@@ -10,22 +40,16 @@ const Preview = () => {
   const previewref = useRef<HTMLDivElement>(null);
   const widthref = useRef<HTMLDivElement>(null);
   const pagebreakref = useRef<HTMLDivElement>(null);
-  // const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 0);
 
   const scale = () => {
     if (ref && widthref && previewref) {
       let maxWidth = previewref.current!.offsetWidth;
-      console.log(previewref.current!.offsetWidth);
-      // if (maxWidth >= widthref.current!.offsetWidth) maxWidth = widthref.current!.offsetWidth;
       let scalingFactor = (maxWidth / widthref.current!.offsetWidth);
-      console.log(scalingFactor);
 
       if (window.innerWidth > 1000) {
         ref.current!.style.scale = scalingFactor.toString();
-        // previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
       } else if (window.innerWidth < 1000) {
         ref.current!.style.scale = scalingFactor.toString();
-        // previewref.current!.style.width = `${(ref.current!.offsetWidth).toString()}px`;
         previewref.current!.style.marginBottom = `${((ref.current!.offsetHeight * scalingFactor * 0.05) / 2).toString()}px`;
       }
 
@@ -83,11 +107,17 @@ const Preview = () => {
               <div className={styles.section}>
                 <div className={styles.address}>
                   {resumeData.address?.length > 0 &&
-                    <p><strong>Address: </strong>{resumeData.address}</p>}
+                    <p>
+                      <strong>{previewLanguages[resumeData.language].address}: </strong>{resumeData.address}
+                    </p>}
                   {resumeData.phone?.length > 0 &&
-                    <p><strong>Phone: </strong>{resumeData.phone}</p>}
+                    <p>
+                      <strong>{previewLanguages[resumeData.language].phone}: </strong>{resumeData.phone}
+                    </p>}
                   {resumeData.email?.length > 0 &&
-                    <p><strong>E-mail: </strong>{resumeData.email}</p>}
+                    <p>
+                      <strong>{previewLanguages[resumeData.language].email}: </strong>{resumeData.email}
+                    </p>}
                   {resumeData.linkedin?.length > 0 &&
                     <p><strong>Linkedin: </strong>{resumeData.linkedin}</p>}
                 </div>
@@ -103,13 +133,12 @@ const Preview = () => {
             {resumeData.experience?.length > 0 &&
               <div className={styles.section}>
                 <div className={styles.experience}>
-                  <h3>Experience</h3>
+                  <h3>{previewLanguages[resumeData.language].experience}</h3>
 
                   <div className={styles.entries}>
                     {resumeData.experience.map((exp, index) =>
                       <div className={styles.entry} key={index}>
                         <p className={styles.fromto} onClick={() => {
-                          console.log(index);
                         }}>{exp.from} - {exp.to}</p>
                         <div className={styles.gapeight}>
                           <div>
@@ -133,7 +162,7 @@ const Preview = () => {
             {resumeData.education?.length > 0 &&
               <div className={styles.section}>
                 <div className={styles.education}>
-                  <h3>Education</h3>
+                  <h3>{previewLanguages[resumeData.language].education}</h3>
 
                   <div className={styles.entries}>
 
@@ -160,7 +189,7 @@ const Preview = () => {
             {resumeData.skills?.length > 0 &&
               <div className={styles.section}>
                 <div className={styles.skills}>
-                  <h3>Skills</h3>
+                  <h3>{previewLanguages[resumeData.language].skills}</h3>
                   <div className={styles.entries}>
 
                     {resumeData.skills.map((skill, index) =>

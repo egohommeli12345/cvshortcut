@@ -14,8 +14,6 @@
 
 .editor h4 {
   position: relative;
-  /*width: min-content;*/
-  /*text-wrap: nowrap;*/
   margin-bottom: 1rem;
 }
 
@@ -23,14 +21,10 @@
   content: "";
   position: absolute;
   height: 2px;
-  /*width: 10rem;*/
   width: 100%;
   background: #00d161;
-  /*top: 50%;*/
-  /*right: 0;*/
   bottom: -0.75rem;
   left: 0;
-  /*transform: translate(105%, -50%);*/
 }
 
 .inputContainer {
@@ -91,7 +85,6 @@
   background-color: #2b2b2b;
   color: #ffffff;
   font-size: 1rem;
-  /*margin-top: 32px;*/
   letter-spacing: var(--p-letter-spacing);
 }
 
@@ -134,10 +127,19 @@
   cursor: pointer;
 }
 
+.select {
+  height: 2rem;
+  border-radius: 0.2rem;
+  border: none;
+  box-sizing: border-box;
+  padding: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
 .input {
   height: 2rem;
   border-radius: 0.2rem;
-  /*border: 1px solid lightgray;*/
   border: none;
   box-sizing: border-box;
   padding: 2px;

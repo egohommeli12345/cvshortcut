@@ -53,7 +53,7 @@ const Editor = () => {
 
   const [txtfile, setTxtfile] = useState<FileList | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const {name, value} = e.target;
     updateField(name as keyof ResumeDataInterface, value);
   };
@@ -255,6 +255,17 @@ const Editor = () => {
   return (
     <>
       <div className={styles.editor}>
+        <div className={styles.inputContainer}>
+          <h4>Resume language</h4>
+          <label htmlFor="language">Language</label>
+          <select name="language"
+                  id="language"
+                  className={styles.select}
+                  onChange={handleChange}>
+            <option value="en">English</option>
+            <option value="fi">Finnish</option>
+          </select>
+        </div>
         <div className={styles.inputContainer}>
           <h4>Basic info</h4>
           <label htmlFor="name">Name</label>

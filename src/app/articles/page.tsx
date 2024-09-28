@@ -7,7 +7,7 @@ const ArticlesPage = () => {
     <div className={styles.articlesbg}>
       <div className={styles.articleshero}>
         <h1>Guide articles</h1>
-        <p>Here, you’ll find valuable insights on crucial topics such as how to
+        <p>Here, you’ll find valuable insights on crucial topics, such as how to
           tailor your resume for specific job applications, the ideal resume
           length, and common mistakes to avoid when crafting your document. Each
           article offers practical tips and strategies to enhance your resume’s

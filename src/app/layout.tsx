@@ -1,7 +1,6 @@
 import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
-import Head from "next/head";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Navigation from "@/components/Navigation";
 import styles from "@/app/page.module.css";
@@ -24,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
     <GoogleAnalytics/>
     <body className={inter.className}>
+    <p className={styles.appversion}>version: v.0.2</p>
     <Navigation/>
     {children}
     <div className={styles.footer}>

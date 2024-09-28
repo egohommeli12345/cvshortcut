@@ -207,6 +207,7 @@
   top: 2px;
   left: 2px;
   font-size: 0.75rem;
+  z-index: 1;
 }
 
 .footer {

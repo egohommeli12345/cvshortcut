@@ -17,7 +17,8 @@ export interface ResumeDataInterface {
   experience: ExperienceInterface[],
   education: EducationInterface[],
   skills: SkillInterface[],
-  customsection: CustomSectionInterface[]
+  customsection: CustomSectionInterface[],
+  language: string
 }
 
 export interface ExperienceInterface {
@@ -74,7 +75,8 @@ export const ResumeProvider = ({children}: ResumeProviderProps) => {
     phone: "",
     skills: [],
     summary: "",
-    title: ""
+    title: "",
+    language: "en"
   });
 
   const updateField = <K extends keyof ResumeDataInterface>(key: K, value: ResumeDataInterface[K], from?: number, to?: number) => {
@@ -112,7 +114,8 @@ export const ResumeProvider = ({children}: ResumeProviderProps) => {
       phone: "",
       skills: [],
       summary: "",
-      title: ""
+      title: "",
+      language: "en"
     });
     localStorage.removeItem("resumeData");
   };
