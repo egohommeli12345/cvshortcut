@@ -81,6 +81,8 @@ const Checkout = ({clientSecret}: {
     });
 
     if (response.ok) {
+      history.replaceState(null, '', window.location.pathname);
+      
       const blob = await response.blob();
 
       const url = window.URL.createObjectURL(blob);
@@ -226,9 +228,7 @@ const Checkout = ({clientSecret}: {
             coupon
           </button>
         </div>
-        <p>* Make sure your browser allows opening PDF-file in a new tab!</p>
-        <p>Some
-          mobile browsers prevent the PDF from opening.</p>
+        <p>* Some mobile browsers prevent the PDF from opening.</p>
         {pdf.length > 0 &&
           <a download={"resume.pdf"} href={pdf} target={"_blank"}>Link to your
             resume</a>}
