@@ -5,7 +5,10 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import Navigation from "@/components/Navigation";
 import styles from "@/app/page.module.css";
 
-const inter = Inter({subsets: ["latin"]});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter"
+});
 
 export const metadata: Metadata = {
   title: "Resume builder: create your resume in minutes",
@@ -23,7 +26,6 @@ export default function RootLayout({
     <html lang="en">
     <GoogleAnalytics/>
     <body className={inter.className}>
-    <p className={styles.appversion}>version: v.0.2</p>
     <Navigation/>
     {children}
     <div className={styles.footer}>

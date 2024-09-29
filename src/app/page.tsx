@@ -6,7 +6,6 @@ import Preview from "@/components/Preview";
 import {ResumeProvider} from "@/components/ResumeContext";
 import PaymentElement from "@/components/PaymentElement";
 import {useRef} from "react";
-import Image from "next/image";
 
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      {/*<p className={styles.appversion}>App version: v.0.2</p>*/}
 
       <div className={styles.hero}>
         <div className={styles.col2}>

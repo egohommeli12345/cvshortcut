@@ -128,22 +128,23 @@
 }
 
 .select {
-  height: 2rem;
+  /*height: 2rem;*/
   border-radius: 0.2rem;
   border: none;
   box-sizing: border-box;
-  padding: 2px;
+  padding: 0.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   background: white;
 }
 
 .input {
-  height: 2rem;
+  /*height: 2rem;*/
   border-radius: 0.2rem;
   border: none;
   box-sizing: border-box;
-  padding: 2px;
+  padding: 0.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  font-size: 0.85rem;
 }
 
 .input:focus, .textarea:focus {
@@ -154,8 +155,11 @@
 .textarea {
   border-radius: 0.2rem;
   border: none;
-  padding: 2px;
+  padding: 0.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  font-size: 0.85rem;
+  font-family: "Inter", sans-serif;
+  line-height: 1.5rem;
 }
 
 .twocolgrid {

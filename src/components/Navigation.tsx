@@ -7,7 +7,8 @@ const Navigation = () => {
       <div className={styles.navbg}>
         <div className={styles.navbar}>
           <Link href={"/"} className={styles.logo}>
-            CVShortcut
+            {/*CVShortcut*/}
+            <img src="/logo.svg" alt="CVShortcut"/>
           </Link>
           <div className={styles.links}>
             <Link href={"/articles"} className={styles.link}>Guide

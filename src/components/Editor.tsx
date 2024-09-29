@@ -261,6 +261,7 @@ const Editor = () => {
           <select name="language"
                   id="language"
                   className={styles.select}
+                  value={resumeData.language}
                   onChange={handleChange}>
             <option value="en">English</option>
             <option value="fi">Finnish</option>
