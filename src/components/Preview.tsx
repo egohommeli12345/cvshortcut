@@ -138,8 +138,10 @@ const Preview = () => {
                   <div className={styles.entries}>
                     {resumeData.experience.map((exp, index) =>
                       <div className={styles.entry} key={index}>
-                        <p className={styles.fromto} onClick={() => {
-                        }}>{exp.from} - {exp.to}</p>
+                        <div>
+                          <p className={styles.fromto} onClick={() => {
+                          }}>{exp.from} - {exp.to}</p>
+                        </div>
                         <div className={styles.gapeight}>
                           <div>
                             <h4>{exp.worktitle}</h4>
