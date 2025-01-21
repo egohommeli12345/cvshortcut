@@ -20,7 +20,7 @@ const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({data: req.body.data, email: req.body.email})
+        body: JSON.stringify({data: req.body.data, email: req.body.email, secret: process.env.API_KEY})
       });
 
       await stripe.paymentIntents.update(paymentIntent_id, {
