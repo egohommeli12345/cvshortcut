@@ -17,7 +17,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({data: req.body.data})
+          body: JSON.stringify({
+            data: req.body.data,
+            secret: process.env.API_KEY
+          })
         });
 
         const pdfBuffer = await pdfResponse.arrayBuffer();
