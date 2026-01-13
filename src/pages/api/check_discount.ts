@@ -1,8 +1,5 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import generateDiscountCode from "@/apiHelpers/generateDiscountCode";
-import puppeteer from "puppeteer-core";
-import {resumeTemplate} from "@/apiHelpers/resumeTemplate";
-import chromium from "chrome-aws-lambda";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

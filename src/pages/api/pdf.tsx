@@ -1,7 +1,4 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import puppeteer from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
-import {resumeTemplate} from "@/apiHelpers/resumeTemplate";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET!);
