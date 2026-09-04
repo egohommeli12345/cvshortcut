@@ -60,7 +60,7 @@ const PaymentElement = () => {
 
   useEffect(() => {
     const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
+      "payment_intent_client_secret",
     );
     if (clientSecret) setClientSecret(clientSecret);
     if (localStorage.getItem("resumeData")) {
