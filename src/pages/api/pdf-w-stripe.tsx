@@ -1,4 +1,4 @@
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET!);
@@ -12,12 +12,12 @@ const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
     const isUsed = paymentIntent.metadata.is_used;
 
     if (status === "succeeded" && isUsed === "false") {
-      const pdfResponse = await fetch("http://api.cvshortcut.com/v1/pdf", {
+      const pdfResponse = await fetch("http://api-cvshortcut.samulipirnes.com/v1/pdf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({data: req.body.data, email: req.body.email, secret: process.env.API_KEY})
+        body: JSON.stringify({ data: req.body.data, email: req.body.email, secret: process.env.API_KEY })
       });
 
       await stripe.paymentIntents.update(paymentIntent_id, {
@@ -32,10 +32,10 @@ const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
       res.end(Buffer.from(pdfBuffer));
     } else if (isUsed === "true") {
-      res.status(401).json({message: "This payment has already been used."});
+      res.status(401).json({ message: "This payment has already been used." });
     }
   } catch (err) {
-    res.status(500).json({message: err});
+    res.status(500).json({ message: err });
   }
 };
 

@@ -1,4 +1,4 @@
-import {NextApiRequest, NextApiResponse} from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import generateDiscountCode from "@/apiHelpers/generateDiscountCode";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (userInputtedDiscount === realDiscount) {
         // res.status(200).json({validDiscount: true});
-        const pdfResponse = await fetch("http://api.cvshortcut.com/v1/pdf", {
+        const pdfResponse = await fetch("http://api-cvshortcut.samulipirnes.com/v1/pdf", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -27,10 +27,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         res.end(Buffer.from(pdfBuffer));
       }
     } else {
-      res.status(401).json({validDiscount: false});
+      res.status(401).json({ validDiscount: false });
     }
   } catch (err) {
-    res.status(500).json({error: err});
+    res.status(500).json({ error: err });
   }
 };
 
