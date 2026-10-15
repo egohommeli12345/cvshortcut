@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const pdfResponse = await fetch("http://api-cvshortcut.samulipirnes.com/v1/pdf", {
+    const pdfResponse = await fetch("https://api-cvshortcut.samulipirnes.com/v1/pdf", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

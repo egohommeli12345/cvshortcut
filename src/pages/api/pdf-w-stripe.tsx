@@ -12,7 +12,7 @@ const generatePdf = async (req: NextApiRequest, res: NextApiResponse) => {
     const isUsed = paymentIntent.metadata.is_used;
 
     if (status === "succeeded" && isUsed === "false") {
-      const pdfResponse = await fetch("http://api-cvshortcut.samulipirnes.com/v1/pdf", {
+      const pdfResponse = await fetch("https://api-cvshortcut.samulipirnes.com/v1/pdf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
